@@ -11,5 +11,6 @@ public class AllGameItems : ScriptableObject
 	[SerializeField]
 
 	public List<GameObject> Items { get { return items; } }
-	//public List<int> ItemIds { get { return itemIds; } }
+
+
 }

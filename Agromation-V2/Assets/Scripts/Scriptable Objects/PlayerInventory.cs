@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Player Inventory")]
 public class PlayerInventory : ScriptableObject
 {
+	#region Fields
 	/// <summary>
 	/// Purpose: Be a holder for the players inventory
 	/// </summary>
@@ -19,6 +20,17 @@ public class PlayerInventory : ScriptableObject
 	[SerializeField]private int maxItemsInInventory = 5;
 	private Dictionary<int, int> itemsInInventory = new Dictionary<int, int>();
 
+	public delegate void InventoryAction(int itemId);
+	public static InventoryAction addedItem;
+	public static InventoryAction removedItem;
+
+
+	public delegate void UpdatedItemAmount(int itemId, int amount);
+	public static UpdatedItemAmount itemAmountUpdate;
+
+	public int currentSelectedId;
+
+	#endregion
 
 	private void Awake()
 	{
@@ -28,9 +40,13 @@ public class PlayerInventory : ScriptableObject
 		}
 		
 	}
-	private void OnEnable()
+
+	/// <summary>
+	/// Called by the gameSettingsManager to start the gameObject
+	/// </summary>
+	public void Initalize()
 	{
-		//_itemManager = GameSettings.Instance.ItemManager;
+		_itemManager = GameSettings.Instance.ItemManager;
 	}
 
 
@@ -39,7 +55,7 @@ public class PlayerInventory : ScriptableObject
 	/// </summary>
 	/// <param name="itemId">The id of the item to look for</param>
 	/// <returns>True if the item is in the inventory</returns>
-	public bool IsItemInInventory(int itemId)
+	private bool IsItemInInventory(int itemId)
 	{
 		if (itemsInInventory.ContainsKey(itemId))
 		{
@@ -78,12 +94,34 @@ public class PlayerInventory : ScriptableObject
 		//Is there room in the inventory?
 		if (itemsInInventory.Count <= maxItemsInInventory)
 		{
+			//Debug.Log(itemsInInventory.Count + " items in inventory");
 			//Is it a valid item?
 			if (_itemManager.ValidItem(itemId))
 			{
-				Debug.Log("Added item: " + itemId + " to inventory");
-				itemsInInventory.Add(itemId,1);
+				Debug.Log("VALID ITEM");
+				//Check if the item is already in the inventory
+				if (IsItemInInventory(itemId))
+				{
+					//Increment the item amount
+					itemsInInventory[itemId]++;
+
+
+					if(itemsInInventory.ContainsKey(itemId))
+					itemAmountUpdate(itemId, itemsInInventory[itemId]);//Call delegate
+					Debug.Log("Increased amount in inventory");
+
+				}
+				else
+				{
+					//Add to inventory
+					//Debug.Log("Added item: " + itemId + " to inventory");
+					itemsInInventory.Add(itemId, 1);
+
+					//Call itemAdded Delegate
+					addedItem(itemId);
+				}
 				return true;
+
 			}
 		}
 		return false;
@@ -104,6 +142,14 @@ public class PlayerInventory : ScriptableObject
 				if(itemsInInventory[itemId] <= 0)
 				{
 					itemsInInventory.Remove(itemId);
+					
+					//Call removedItem Delegate
+					removedItem(itemId);
+				}
+				else
+				{
+					//Update Amount
+					itemAmountUpdate(itemId, itemsInInventory[itemId]);
 				}
 			}
 		}

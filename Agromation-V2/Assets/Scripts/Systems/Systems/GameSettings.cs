@@ -13,7 +13,7 @@ public class GameSettings : MonoBehaviour
 	public static GameSettings Instance { get { return instance; } }
 
 
-	[SerializeField] private AllGameItems itemIndex = null;
+	[SerializeField] private AllGameItems itemIndex;
 	public AllGameItems ItemIndex { get { return itemIndex; } }
 
 	[SerializeField] private PlayerInventory playerInventory;
@@ -26,6 +26,10 @@ public class GameSettings : MonoBehaviour
 	private void Awake()
 	{
 		instance = this;
+
+		//Initialize the scriptable objects
+		_itemManager.FillGameItems();
+		playerInventory.Initalize();
 	}
 
 

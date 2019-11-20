@@ -40,16 +40,9 @@ public class ItemManager : ScriptableObject
 			//Create singleton Instance
 			_instance = this;
 		}
-	}
-
-
-	private void Start()
-	{    
-
 		//Get the ItemIndex from the GameSettings
 		itemIndex = GameSettings.Instance.ItemIndex;
-		//Fill item dictionary
-		FillGameItems();
+
 		//Confirm that all items have been loaded
 		Debug.Log("All items Loaded, final count:" + _items.Count);
 	}
@@ -59,12 +52,16 @@ public class ItemManager : ScriptableObject
 	/// </summary>
 	/// <param name="ids">The list of item ids</param>
 	/// <param name="items">The list of item prefabs</param>
-	void FillGameItems()
+	public void FillGameItems()
 	{
+		//Fill item dictionary
+		Debug.Log("Filling Items");
 		for (int i = 0; i < itemIndex.Items.Count; i++)
 		{
 			//Add an item into the list
 			_items.Add(itemIndex.Items[i].GetComponent<Item>().Id, itemIndex.Items[i]);
+
+			Debug.Log("Item id:" + itemIndex.Items[i].GetComponent<Item>().Id);
 			Debug.Log("Item added to master index:" + itemIndex.items[i].name);
 		}
 	}
@@ -112,6 +109,7 @@ public class ItemManager : ScriptableObject
 		}
 		else
 		{
+			//Debug.Log("Contains " + itemId);
 			return false;
 		}
 	}
