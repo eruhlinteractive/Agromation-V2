@@ -98,7 +98,7 @@ public class PlayerInventory : ScriptableObject
 			//Is it a valid item?
 			if (_itemManager.ValidItem(itemId))
 			{
-				Debug.Log("VALID ITEM");
+				//Debug.Log("VALID ITEM");
 				//Check if the item is already in the inventory
 				if (IsItemInInventory(itemId))
 				{
@@ -108,7 +108,7 @@ public class PlayerInventory : ScriptableObject
 
 					if(itemsInInventory.ContainsKey(itemId))
 					itemAmountUpdate(itemId, itemsInInventory[itemId]);//Call delegate
-					Debug.Log("Increased amount in inventory");
+					//Debug.Log("Increased amount in inventory");
 
 				}
 				else
@@ -127,6 +127,10 @@ public class PlayerInventory : ScriptableObject
 		return false;
 	}
 
+	/// <summary>
+	/// Removes an item of a specified ID from the inventory(if its already in it)
+	/// </summary>
+	/// <param name="itemId">The id of the item to remove</param>
 	public void RemoveFromInventory(int itemId)
 	{
 		

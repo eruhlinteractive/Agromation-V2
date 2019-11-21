@@ -22,6 +22,9 @@ public class GameSettings : MonoBehaviour
 	[SerializeField] private ItemManager _itemManager;
 	public ItemManager ItemManager { get { return _itemManager; } }
 
+	[SerializeField] private ToolManager _toolManager;
+	public ToolManager ToolManager { get { return _toolManager; } }
+
 
 	private void Awake()
 	{
@@ -30,6 +33,7 @@ public class GameSettings : MonoBehaviour
 		//Initialize the scriptable objects
 		_itemManager.FillGameItems();
 		playerInventory.Initalize();
+		_toolManager.Initialize();
 	}
 
 

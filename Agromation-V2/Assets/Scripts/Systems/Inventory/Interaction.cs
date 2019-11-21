@@ -25,11 +25,11 @@ public class Interaction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (Input.GetButtonDown("Fire1"))
+		if (Input.GetKeyDown(KeyCode.F))
 		{
 			Pickup();
 		}
-		if (Input.GetButtonDown("Fire2"))
+		if (Input.GetKeyDown(KeyCode.R))
 		{
 			Drop();
 		}

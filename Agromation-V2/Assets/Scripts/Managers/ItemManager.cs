@@ -41,10 +41,10 @@ public class ItemManager : ScriptableObject
 			_instance = this;
 		}
 		//Get the ItemIndex from the GameSettings
-		itemIndex = GameSettings.Instance.ItemIndex;
+		
 
 		//Confirm that all items have been loaded
-		Debug.Log("All items Loaded, final count:" + _items.Count);
+		//Debug.Log("All items Loaded, final count:" + _items.Count);
 	}
 
 	/// <summary>
@@ -54,15 +54,16 @@ public class ItemManager : ScriptableObject
 	/// <param name="items">The list of item prefabs</param>
 	public void FillGameItems()
 	{
+		itemIndex = GameSettings.Instance.ItemIndex;
 		//Fill item dictionary
-		Debug.Log("Filling Items");
+		//Debug.Log("Filling Items");
 		for (int i = 0; i < itemIndex.Items.Count; i++)
 		{
 			//Add an item into the list
 			_items.Add(itemIndex.Items[i].GetComponent<Item>().Id, itemIndex.Items[i]);
 
-			Debug.Log("Item id:" + itemIndex.Items[i].GetComponent<Item>().Id);
-			Debug.Log("Item added to master index:" + itemIndex.items[i].name);
+			//Debug.Log("Item id:" + itemIndex.Items[i].GetComponent<Item>().Id);
+			//Debug.Log("Item added to master index:" + itemIndex.items[i].name);
 		}
 	}
 
