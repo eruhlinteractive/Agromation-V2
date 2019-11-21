@@ -9,8 +9,8 @@ public class UI_Inventory : MonoBehaviour
 	[SerializeField] private InvSlot[] inventorySlots = new InvSlot[5];
 	private Dictionary<int, InvSlot> _slots = new Dictionary<int, InvSlot>(); // Format <item Id, Inventory slot displaying data>
 	[SerializeField] private int selectedSlot = 0;
-	[SerializeField] private PlayerInventory _playerInventory;
-	[SerializeField] private ItemManager _itemManager;
+	[SerializeField] private PlayerInventory _playerInventory = null;
+	[SerializeField] private ItemManager _itemManager = null;
 
 
 	#endregion
@@ -66,6 +66,9 @@ public class UI_Inventory : MonoBehaviour
 		{
 			selectedSlot = 4;
 		}
+
+		//Set which object should be displayed in the hand
+		HandObject.Instance.SetCurrentItem(inventorySlots[selectedSlot].Id);
 	}
 
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SeedPack : Item
 {
-	int plantId;
+	[SerializeField] int plantId;
 
 
     // Start is called before the first frame update

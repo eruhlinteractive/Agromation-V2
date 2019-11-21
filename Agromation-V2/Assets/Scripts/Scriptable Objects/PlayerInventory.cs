@@ -12,14 +12,16 @@ public class PlayerInventory : ScriptableObject
 	/// </summary>
 
 
-	private static PlayerInventory instance;
+	private static PlayerInventory instance = null;
 	public static PlayerInventory Instance { get { return instance; } }
 
-	[SerializeField] private ItemManager _itemManager;
+	[SerializeField] private ItemManager _itemManager = null;
 	
 	[SerializeField]private int maxItemsInInventory = 5;
 	private Dictionary<int, int> itemsInInventory = new Dictionary<int, int>();
+	public int currentSelectedId;
 
+	//Delegates
 	public delegate void InventoryAction(int itemId);
 	public static InventoryAction addedItem;
 	public static InventoryAction removedItem;
@@ -27,8 +29,6 @@ public class PlayerInventory : ScriptableObject
 
 	public delegate void UpdatedItemAmount(int itemId, int amount);
 	public static UpdatedItemAmount itemAmountUpdate;
-
-	public int currentSelectedId;
 
 	#endregion
 

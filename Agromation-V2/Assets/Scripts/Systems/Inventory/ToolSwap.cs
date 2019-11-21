@@ -8,37 +8,39 @@ public class ToolSwap : MonoBehaviour
 	private ToolManager _toolManager;
 	private int currentTool = 0;
 	private List<GameObject> unlockedToolList;
+	private GameObject currentTool_Obj = null;
+	private Transform handPosition = null;
+	private bool toolMode = false;
 
 	//Delegates
 	public delegate void NewTool(Tool newTool);
 	public static NewTool displayNewTool;
 
 
-	public GameObject currentTool_Obj = null;
-
-	public Transform handPosition;
-
-	private bool toolMode = false;
+	
 
 	#endregion
-
+	public bool ToolMode { get { return toolMode; } }
 
 	#region Methods
 	// Start is called before the first frame update
 	void Start()
     {
 		_toolManager = GameSettings.Instance.ToolManager;
-		//Link delegates
-		ToolManager.refreshToolList += RefreshList;
 		unlockedToolList = _toolManager.UnlockedTools;
+
+		//Bind Delegates
+		ToolManager.refreshToolList += RefreshList;
+		HandObject.currentlyHoldingTool += ToggleToolMode;
+
+
 		currentTool_Obj = unlockedToolList[0];
-    }
+	}
 
     // Update is called once per frame
     void Update()
     {
 		ChangeTool();
-		ToggleToolMode();
 		if (Input.GetButtonDown("Fire1"))
 		{
 			_toolManager.UnlockTool("Pickaxe");
@@ -67,20 +69,15 @@ public class ToolSwap : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.Q))
 		{
-			currentTool--;
-			CurrentToolWrap();
-			//Call delegate
-			displayNewTool(unlockedToolList[currentTool].GetComponent<Tool>());
-			ShowCurrentTool();
+			currentTool--;			
+			SetCurrentTool();
 		}
 		if (Input.GetKeyDown(KeyCode.E))
 		{
 			currentTool++;
-			CurrentToolWrap();
-			//Call delegate
-			displayNewTool(unlockedToolList[currentTool].GetComponent<Tool>());
-			ShowCurrentTool();
+			SetCurrentTool();
 		}
+	
 	}
 
 	/// <summary>
@@ -100,35 +97,25 @@ public class ToolSwap : MonoBehaviour
 		unlockedToolList = _toolManager.UnlockedTools;
 	}
 
-	private void ShowCurrentTool()
+
+	/// <summary>
+	/// Updated data to reflect a different active tool
+	/// </summary>
+	private void SetCurrentTool()
 	{
-		Destroy(currentTool_Obj);
-		GameObject newTool = Instantiate(unlockedToolList[currentTool], handPosition);
-		currentTool_Obj = newTool;
+		CurrentToolWrap();
+		//Call delegate to update the tool icon
+		displayNewTool(unlockedToolList[currentTool].GetComponent<Tool>());
+		currentTool_Obj = unlockedToolList[currentTool];
+		HandObject.Instance.SetCurrentTool(currentTool_Obj);
 	}
 
 	/// <summary>
 	/// Toggles tool mode on and off
 	/// </summary>
-	private void ToggleToolMode()
+	private void ToggleToolMode(bool inToolMode)
 	{
-		if (Input.GetKeyDown(KeyCode.T))
-		{
-			if (toolMode)
-			{
-				toolMode = false;
-
-			}
-			else
-			{
-				toolMode = true;
-			}
-		}
-		if (toolMode)
-			currentTool_Obj.SetActive(true);
-		else
-			currentTool_Obj.SetActive(false);
-
+		toolMode = inToolMode;
 	}
 
 	#endregion

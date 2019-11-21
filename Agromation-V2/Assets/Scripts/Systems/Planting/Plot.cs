@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Plot : MonoBehaviour
 {
-	private Vector3 plantPos;
-	private bool isPlanted;
+	//private Vector3 plantPos;
+	private bool isPlanted = false;
 
 	public bool IsPlanted { get => isPlanted;}
 
 	private void Start()
 	{
-		plantPos = transform.GetChild(0).position;
+		this.gameObject.layer = 0;
 	}
 
 	public void Plant()

@@ -4,42 +4,36 @@ using UnityEngine;
 
 public class Hoe : MonoBehaviour
 {
-	[SerializeField] PlotManager _plotManager;
-	[SerializeField] Grid _grid;
-	[SerializeField] GameObject groundPlot;
-	[SerializeField] Transform headPos;
-	GameObject trackingPoint;
-	RaycastHit groundCheck;
+	[SerializeField] PlotManager _plotManager = null;
+	[SerializeField] Grid _grid = null;
+	PlayerLookRayCast _playerLookRayCast;
+	[SerializeField] GameObject groundPlot = null;
 
 	// Start is called before the first frame update
 	void Start()
     {
         _plotManager = PlotManager.Instance;
 		_grid = Grid.Instance;
-		headPos = GetComponentInParent<Camera>().transform;
+		_playerLookRayCast = PlayerLookRayCast.Instance;
 	}
 
     // Update is called once per frame
     void Update()
     {
-		if (Physics.Raycast(headPos.transform.position, headPos.transform.forward, out groundCheck, 5f))
+		if (Input.GetButtonDown("Fire1"))
 		{
-			Debug.DrawRay(headPos.transform.position, headPos.transform.forward * 5f, Color.blue);
-			if (Input.GetButtonDown("Fire1"))
+			if (_playerLookRayCast.LookHit.collider.CompareTag("Ground"))
 			{
-				if (groundCheck.collider.CompareTag("Ground"))
+				//Get the nearest point on the grid
+				Vector3 pos = _grid.GetNearestPointOnGrid(_playerLookRayCast.LookHit.point);
+				if (_plotManager.OpenSpot(pos))
 				{
-					Vector3 pos = _grid.GetNearestPointOnGrid(groundCheck.point);
-					if (_plotManager.OpenSpot(pos))
-					{
-						GameObject newPlot = Instantiate(groundPlot, pos, Quaternion.identity);
-						newPlot.GetComponent<Rigidbody>().isKinematic = true;
-						_plotManager.AddPlot(newPlot.transform.position, newPlot);
-					}
-
+					//Create the plot and add it to the plot managers index
+					GameObject newPlot = Instantiate(groundPlot, pos, Quaternion.identity);
+					_plotManager.AddPlot(newPlot.transform.position, newPlot);
 				}
+
 			}
 		}
-		
     }
 }
