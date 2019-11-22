@@ -6,9 +6,11 @@ public class SeedPack : Item
 {
 	[SerializeField] int plantId;
 
+	public int PlantId { get => plantId;}
 
-    // Start is called before the first frame update
-    void Start()
+
+	// Start is called before the first frame update
+	void Start()
     {
         
     }

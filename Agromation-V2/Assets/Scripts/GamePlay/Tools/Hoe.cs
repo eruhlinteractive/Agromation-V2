@@ -22,6 +22,7 @@ public class Hoe : MonoBehaviour
     {
 		if (Input.GetButtonDown("Fire1"))
 		{
+			if(_playerLookRayCast.LookHit.collider != null)	//First check if null
 			if (_playerLookRayCast.LookHit.collider.CompareTag("Ground"))
 			{
 				//Get the nearest point on the grid

@@ -46,6 +46,7 @@ public class UI_Inventory : MonoBehaviour
 	/// </summary>
 	private void SetCurrentSlot()
 	{
+		inventorySlots[selectedSlot].gameObject.transform.localScale = Vector3.one;
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			selectedSlot = 0;
@@ -69,6 +70,7 @@ public class UI_Inventory : MonoBehaviour
 
 		//Set which object should be displayed in the hand
 		HandObject.Instance.SetCurrentItem(inventorySlots[selectedSlot].Id);
+		inventorySlots[selectedSlot].gameObject.transform.localScale = Vector3.one * 1.15f;
 	}
 
 

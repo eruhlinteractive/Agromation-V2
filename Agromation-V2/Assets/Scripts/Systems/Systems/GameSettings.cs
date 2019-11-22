@@ -25,6 +25,9 @@ public class GameSettings : MonoBehaviour
 	[SerializeField] private ToolManager _toolManager;
 	public ToolManager ToolManager { get { return _toolManager; } }
 
+	[SerializeField] private PlayerStats _playerStats;
+	public PlayerStats PlayerStats { get { return _playerStats; } }
+
 
 	private void Awake()
 	{
@@ -34,6 +37,7 @@ public class GameSettings : MonoBehaviour
 		_itemManager.FillGameItems();
 		playerInventory.Initalize();
 		_toolManager.Initialize();
+		_playerStats.Initialize();
 	}
 
 

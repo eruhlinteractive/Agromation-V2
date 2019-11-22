@@ -12,6 +12,7 @@ enum ObjectTypeInHand
 public class HandObject : MonoBehaviour
 {
 
+	#region Fields
 	GameObject objInHand = null;
 
 	ToolManager _toolManager = null;
@@ -29,7 +30,7 @@ public class HandObject : MonoBehaviour
 	public static IsHoldingTool currentlyHoldingTool;
 
 
-	public delegate void PlacedItem(int itemId);
+	public delegate void PlacedItem(int itemId, bool isSeed);
 	public static PlacedItem itemPlaced;
 
 
@@ -37,6 +38,8 @@ public class HandObject : MonoBehaviour
 	private static HandObject instance;
 	public static HandObject Instance { get { return instance; } }
 
+
+	#endregion
 	private void Awake()
 	{
 		if(instance == null)
@@ -49,6 +52,7 @@ public class HandObject : MonoBehaviour
     {
 		_toolManager = GameSettings.Instance.ToolManager;
 		_itemManager = GameSettings.Instance.ItemManager;
+
 	}
 
     // Update is called once per frame
@@ -69,20 +73,6 @@ public class HandObject : MonoBehaviour
 			}
 
 			SetObjectsAsActive();
-		}
-
-		//If a click action is made
-		if (Input.GetButtonDown("Fire1"))
-		{
-			if(typeInHand == ObjectTypeInHand.Item)
-			{
-				//Check if its a seedpack
-
-				//If YES, check if player is looking at a plot of land
-
-				//IF YES, plant the seed and remove from inventory
-			}
-
 		}
     }
 

@@ -26,11 +26,11 @@ public class Interaction : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.F))
+		if (Input.GetButtonDown("Fire1"))
 		{
 			Pickup();
 		}
-		if (Input.GetKeyDown(KeyCode.R))
+		if (Input.GetButtonDown("Fire2"))
 		{
 			Drop();
 		}
@@ -65,19 +65,68 @@ public class Interaction : MonoBehaviour
 	/// </summary>
 	private void Drop()
 	{
+		int itemId = _playerInv.currentSelectedId;
 		//Make sure the player is looking at something
-		
-		if(_playerInv.AmountInInventory(_playerInv.currentSelectedId) > 0)
+
+		if (_playerInv.AmountInInventory(itemId) > 0)
 		{
-			GameObject placedObject = Instantiate(_itemManager.GetItem(_playerInv.currentSelectedId),
+			//Plant the item
+			//Is it a seed?
+			if (itemId > 199 && itemId <= 399)
+			{
+				//If the player is looking at something
+				if (_playerLookRayCast.LookHit.collider != null)
+				{
+					if (_playerLookRayCast.LookHit.collider.CompareTag("Plot") && !(_playerLookRayCast.LookHit.collider.gameObject.GetComponent<Plot>().IsPlanted))
+					{
+						Plant(_playerLookRayCast.LookHit.collider.gameObject, _itemManager.GetItem(itemId).GetComponent<SeedPack>().PlantId);
+					}
+					else
+					{
+						ThrowObject();
+					}
+				}
+				else
+				{
+					ThrowObject();
+				}
+			}
+			//Otherwise place the item
+			else
+			{
+				ThrowObject();
+			}
+
+			_playerInv.RemoveFromInventory(itemId);
+		}
+	}
+
+	/// <summary>
+	/// Drops the object, adding a slight forward force
+	/// </summary>
+	private void ThrowObject()
+	{
+		GameObject placedObject = Instantiate(_itemManager.GetItem(_playerInv.currentSelectedId),
 				playerHead.transform.position + (playerHead.transform.forward * 2),
 				Quaternion.identity);
+		//"Throw" instantiated object
+		placedObject.GetComponent<Rigidbody>().AddForce(playerHead.transform.forward * 2, ForceMode.Impulse);
 
-			//"Throw" instantiated object
-			placedObject.GetComponent<Rigidbody>().AddForce(playerHead.transform.forward * 2, ForceMode.Impulse);
-			_playerInv.RemoveFromInventory(_playerInv.currentSelectedId);
+	}
 
-			
-		}
+	/// <summary>
+	/// Creates a plant if the player is holding a seed pack
+	/// </summary>
+	/// <param name="plot">The plot to plant it in</param>
+	/// <param name="plantId">Which plant to plant, based on seed pack field</param>
+	private void Plant(GameObject plot, int plantId)
+	{
+		//Get the plot object
+		plot.GetComponent<Plot>().Plant();
+		GameObject newPlant = Instantiate(_itemManager.GetItem(plantId),plot.transform);
+		//if (newPlant.GetComponent<Rigidbody>() != ni)
+		//newPlant.GetComponent<Plant>().StartGrowing();
+		
+		//Debug.Log("Plant Seed");
 	}
 }
