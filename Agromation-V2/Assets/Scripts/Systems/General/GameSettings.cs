@@ -28,6 +28,9 @@ public class GameSettings : MonoBehaviour
 	[SerializeField] private PlayerStats _playerStats;
 	public PlayerStats PlayerStats { get { return _playerStats; } }
 
+	[SerializeField] private PlayerControlManager _playerControlManager;
+	public PlayerControlManager PlayerControlManager { get { return _playerControlManager; } }
+
 
 	private void Awake()
 	{

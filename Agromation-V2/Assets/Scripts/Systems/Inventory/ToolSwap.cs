@@ -41,10 +41,6 @@ public class ToolSwap : MonoBehaviour
     void Update()
     {
 		ChangeTool();
-		if (Input.GetButtonDown("Fire1"))
-		{
-			_toolManager.UnlockTool("Pickaxe");
-		}
 	}
 
 	/// <summary>

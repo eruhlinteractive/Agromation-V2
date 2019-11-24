@@ -14,11 +14,16 @@ public class PlayerStats : ScriptableObject
 	public delegate void MoneyChange(int currentCoinAmount);
 	public static MoneyChange updateMoneyUi;
 
+	public int Money { get => money;}
+
 	public void Initialize()
 	{
 		SetInitalValue();
 	}
 
+	/// <summary>
+	/// Set inital values of the player values
+	/// </summary>
 	private void SetInitalValue()
 	{
 		money = 0;

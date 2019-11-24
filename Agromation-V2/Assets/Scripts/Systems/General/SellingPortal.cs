@@ -6,10 +6,13 @@ public class SellingPortal : MonoBehaviour
 {
 
 	private PlayerStats _playerStats;
+
+	private ParticleSystem particleEffect;
     // Start is called before the first frame update
     void Start()
     {
-		_playerStats = GameSettings.Instance.PlayerStats; 
+		_playerStats = GameSettings.Instance.PlayerStats;
+		particleEffect = gameObject.GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -25,6 +28,7 @@ public class SellingPortal : MonoBehaviour
 			int itemValue = collision.gameObject.GetComponent<Item>().Value;
 			Destroy(collision.gameObject);
 			_playerStats.AddMoney(itemValue);
+			particleEffect.Play();
 			
 		}
 	}

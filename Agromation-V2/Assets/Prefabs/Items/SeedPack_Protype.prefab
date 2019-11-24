@@ -109,8 +109,8 @@ MonoBehaviour:
   itemId: 200
   itemValue: 5
   itemIcon: {fileID: 0}
-  itemName: Cucumber Seed
-  plantId: 400
+  itemName: Carrot Seed
+  plantId: 401
 --- !u!54 &755255259692263250
 Rigidbody:
   m_ObjectHideFlags: 0

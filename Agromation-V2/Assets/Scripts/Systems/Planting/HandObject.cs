@@ -52,7 +52,6 @@ public class HandObject : MonoBehaviour
     {
 		_toolManager = GameSettings.Instance.ToolManager;
 		_itemManager = GameSettings.Instance.ItemManager;
-
 	}
 
     // Update is called once per frame

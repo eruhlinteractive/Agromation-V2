@@ -54,4 +54,51 @@ public class PlotManager : MonoBehaviour
 	{
 		plotIndex.Add(pos, newPlot);
 	}
+	
+
+	/// <summary>
+	/// Destroys the plot and removes it from the plotIndex
+	/// </summary>
+	/// <param name="pos">The position of the plot</param>
+	public void RemovePlot(Vector3 pos)
+	{
+		//Destroy the plot
+		Destroy(plotIndex[pos]);
+		//Remove it from index
+		plotIndex.Remove(pos);
+	}
+
+	/// <summary>
+	/// Check if the plot is in the plotIndex
+	/// </summary>
+	/// <param name="pos">The position to check</param>
+	/// <returns>True if the plot is in the plotIndex</returns>
+	private bool HasPlot(Vector3 pos)
+	{
+		if (plotIndex.ContainsKey(pos))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/// <summary>
+	/// Get the plot index of the plot at a given position
+	/// </summary>
+	/// <param name="pos">The position of the plot to get</param>
+	/// <returns>The plot gameobject</returns>
+	public GameObject GetPlot(Vector3 pos)
+	{
+		if (HasPlot(pos))
+		{
+			return plotIndex[pos];
+		}
+		else
+		{
+			return null;
+		}
+	}
 }

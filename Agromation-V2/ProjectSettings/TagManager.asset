@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Plant
   - Plot
+  - Buying Portal
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - PostProccessing
   - 
   - 
   - 
