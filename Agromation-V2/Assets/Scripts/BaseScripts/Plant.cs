@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Plant : Item
+public class Plant : Item, IGrowable
 {
 	[SerializeField] private bool isGrowing;
 	[SerializeField] private bool fullyGrown;
@@ -19,7 +19,7 @@ public class Plant : Item
 		if(transform.parent != null)
 		{
 			StartGrowing();
-			GetComponent<BoxCollider>().enabled = false;
+			GetComponent<Collider>().enabled = false;
 			GetComponent<Rigidbody>().isKinematic = true;
 		}
     }
@@ -63,7 +63,7 @@ public class Plant : Item
 		
 		//Make "Pickupable"
 		transform.position += Vector3.up;
-		gameObject.GetComponent<BoxCollider>().enabled = true;
+		gameObject.GetComponent<Collider>().enabled = true;
 		gameObject.GetComponent<Rigidbody>().isKinematic = false;
 		gameObject.tag = "Item";
 	}

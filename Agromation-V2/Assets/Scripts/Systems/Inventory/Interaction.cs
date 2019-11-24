@@ -29,10 +29,23 @@ public class Interaction : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if (_playerLookRayCast.LookHit.collider != null)
+		{
+			
+			if (_playerLookRayCast.LookHit.collider.gameObject.CompareTag("BuyingStation"))
+			{
+				if (Input.GetButton("Fire1"))
+				{
+					_playerLookRayCast.LookHit.collider.gameObject.GetComponent<BuyingManager>().OpenBuyingMenu();
+				}
+				
+			}
+		}
 		//First make sure that the player is holding an item (not a tool)
 		if (canUseItem)
 		{
-			if (Input.GetButtonDown("Fire1"))
+			if (_playerLookRayCast.LookHit.collider != null)
+				if (Input.GetButtonDown("Fire1"))
 			{
 				Pickup();
 			}
@@ -41,30 +54,25 @@ public class Interaction : MonoBehaviour
 				Drop();
 			}
 		}
-
 	}
+
 
 	/// <summary>
 	/// Runs object pickup proccess
 	/// </summary>
 	private void Pickup()
 	{
-		if(_playerLookRayCast.LookHit.collider != null)
+		//If the hit collider has an item script attached
+		if (_playerLookRayCast.LookHit.collider.gameObject.CompareTag("Item"))
 		{
-			//If the hit collider has an item script attached
-			if (_playerLookRayCast.LookHit.collider.gameObject.CompareTag("Item"))
+			int id = _playerLookRayCast.LookHit.collider.gameObject.GetComponent<Item>().Id;
+			//Debug.Log("It's an item with id:" + id);
+			if (_playerInv.AddToInventory(id))
 			{
-				int id = _playerLookRayCast.LookHit.collider.gameObject.GetComponent<Item>().Id;
-				//Debug.Log("It's an item with id:" + id);
-				if (_playerInv.AddToInventory(id))
-				{
-					//Only destroy if item has been successfully added
-					Destroy(_playerLookRayCast.LookHit.collider.gameObject);
-				}
+				//Only destroy if item has been successfully added
+				Destroy(_playerLookRayCast.LookHit.collider.gameObject);
 			}
-
 		}
-		
 	}
 
 	/// <summary>

@@ -92,7 +92,7 @@ public class PlayerInventory : ScriptableObject
 	{ 
 
 		//Is there room in the inventory?
-		if (itemsInInventory.Count <= maxItemsInInventory)
+		if (itemsInInventory.Count < maxItemsInInventory)
 		{
 			//Debug.Log(itemsInInventory.Count + " items in inventory");
 			//Is it a valid item?

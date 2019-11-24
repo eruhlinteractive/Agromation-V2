@@ -11,13 +11,17 @@ public class PlayerControlManager : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
+		
+	}
+	private void Awake()
+	{
 		LockCursor();
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-
+		
 	}
 
 	public void StartBuying()
@@ -34,16 +38,17 @@ public class PlayerControlManager : MonoBehaviour
 
 	public void LockCursor()
 	{
+		EnablePlayerMovement();
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
-		EnablePlayerMovement();
+		
 	}
 
 	public void UnlockCursor()
 	{
-		Cursor.lockState = CursorLockMode.Confined;
-		Cursor.visible = true;
 		DisablePlayerMovement();
+		Cursor.lockState = CursorLockMode.None;
+		Cursor.visible = true;
 	}
 
 	private void DisablePlayerMovement()

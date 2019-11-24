@@ -9,6 +9,7 @@ public class Item : MonoBehaviour
 	#region Fields
 	[SerializeField]private int itemId = -1;
 	[SerializeField]private int itemValue = -1;
+	[SerializeField] private int itemPrice = -1;
 	[SerializeField]private Sprite itemIcon = null;
 	[SerializeField]private string itemName;
 
@@ -21,6 +22,7 @@ public class Item : MonoBehaviour
 	public int Value { get {return itemValue; } }
 	public Sprite Icon { get { return itemIcon; } }
 	public string ItemName { get => itemName; }
+	public int Price { get => itemPrice;}
 
 
 	#endregion

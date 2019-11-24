@@ -47,7 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemId: 401
-  itemValue: 10
+  itemValue: 20
+  itemPrice: 25
   itemIcon: {fileID: 21300000, guid: b3ec2f9bb8c8f8d4f8df49e6831c425a, type: 3}
   itemName: Carrot
   isGrowing: 0
