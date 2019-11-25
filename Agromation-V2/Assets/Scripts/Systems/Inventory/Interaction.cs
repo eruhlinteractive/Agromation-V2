@@ -31,7 +31,13 @@ public class Interaction : MonoBehaviour
 	{
 		if (_playerLookRayCast.LookHit.collider != null)
 		{
-			
+			//if The player is looking at a plot
+			if (_playerLookRayCast.LookHit.collider.CompareTag("Plot"))
+			{
+				//_playerLookRayCast.LookHit.collider.gameObject.GetComponent<Plot>().GrowthDisplay.gameObject.SetActive(true);
+			}
+
+
 			if (_playerLookRayCast.LookHit.collider.gameObject.CompareTag("BuyingStation"))
 			{
 				if (Input.GetButton("Fire1"))
@@ -41,6 +47,7 @@ public class Interaction : MonoBehaviour
 				
 			}
 		}
+
 		//First make sure that the player is holding an item (not a tool)
 		if (canUseItem)
 		{

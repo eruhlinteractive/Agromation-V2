@@ -52,9 +52,9 @@ public class Hoe : MonoBehaviour
 				GameObject plot = _plotManager.GetPlot(pos);
 
 				//If theres something planted, destroy it
-				if (plot.transform.childCount == 1)
+				if (plot.transform.childCount > 2)
 				{
-					Destroy(plot.transform.GetChild(0).gameObject);	//Destroy plant object
+					Destroy(plot.transform.GetComponentInChildren<Plant>().gameObject);	//Destroy plant object
 					plot.GetComponent<Plot>().Reset();  //Reset the current plot
 				}
 				//Otherwise destroy the whole plot

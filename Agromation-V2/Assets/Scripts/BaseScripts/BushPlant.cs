@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BushPlant : Item,IGrowable
+public class BushPlant : Plant,IGrowable
 {
 
 	[SerializeField] private List<GameObject> vegetables;
@@ -11,12 +11,8 @@ public class BushPlant : Item,IGrowable
 	[SerializeField] private int growLimit;
 	private int timesGrown = 0;
 
-	[SerializeField] private float growTime;
-	[SerializeField] private float growTimeElapsed;
+	private Vector3 vegFullGrownScale;
 	[SerializeField] private int vegetableId;
-
-	private bool isFullyGrown = false;
-	private bool isGrowing = false;
 
 	[SerializeField] private ItemManager _itemManager;
 
@@ -39,22 +35,23 @@ public class BushPlant : Item,IGrowable
 	public void StartGrowingVegetables()
 	{
 		growTimeElapsed = 0;
-		isFullyGrown = false;
+		fullGrown = false;
+		vegFullGrownScale = _itemManager.GetItem(vegetableId).transform.localScale;
 		//Create and add vegetables to the list
 		for (int i = 0; i < amountOfVegetables; i++)
 		{
 			GameObject newVegetable = Instantiate(_itemManager.GetItem(vegetableId), growPositions[i]);
 
-			//Make sure the vegetable rigidbody is disabled
-			//if (newVegetable.GetComponent<Rigidbody>() != null)
-			//{
 				newVegetable.GetComponent<Rigidbody>().isKinematic = true;
 				newVegetable.GetComponent<Collider>().enabled = false;
-			//}
 				vegetables.Add(newVegetable);
+
+			////Quarter the scale of each vegetable
+			newVegetable.transform.localScale = Vector3.zero;
 		}
-		//Start the growing timer
-		StartGrowing();
+	
+	//Start the growing timer
+	StartGrowing();
 	}
 
     // Update is called once per frame
@@ -62,8 +59,10 @@ public class BushPlant : Item,IGrowable
     {
 		if (isGrowing)
 		{
-			growTimeElapsed += Time.deltaTime;
+			ScalePlants();
 
+			growTimeElapsed += Time.deltaTime;
+			percentGrown = growTimeElapsed / growTime;
 			if (growTimeElapsed >= growTime)
 			{
 				FullGrown();
@@ -72,10 +71,17 @@ public class BushPlant : Item,IGrowable
 
 	}
 
-
+	//Visually grows the plants by scaling them
+	private void ScalePlants()
+	{
+		foreach (GameObject veg in vegetables)
+		{
+			veg.transform.localScale = Vector3.Lerp(veg.transform.localScale, vegFullGrownScale, growTimeElapsed * Time.deltaTime / growTime);
+		}
+	}
 	public void FullGrown()
 	{
-		isFullyGrown = true;
+		fullGrown = true;
 		isGrowing = false;
 
 		//Remove fully grown vegetables from plant
@@ -108,7 +114,7 @@ public class BushPlant : Item,IGrowable
 		//Otherwise, start another cycle
 		else
 		{
-			StartGrowingVegetables();
+			StartCoroutine(CyclePause());
 		}
 
 	}
@@ -119,6 +125,13 @@ public class BushPlant : Item,IGrowable
 	public void StartGrowing()
 	{
 		isGrowing = true;
-		isFullyGrown = false;
+		fullGrown = false;
+	}
+
+
+	IEnumerator CyclePause()
+	{
+		yield return new WaitForSeconds(5);
+		StartGrowingVegetables();
 	}
 }

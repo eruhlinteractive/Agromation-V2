@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7183793941466519100}
-  - component: {fileID: 5392865107634294425}
   - component: {fileID: 5354147826722355351}
   - component: {fileID: 5107423656057219138}
+  - component: {fileID: -2940422792866418288}
   m_Layer: 0
   m_Name: Carrot
   m_TagString: Plant
@@ -34,26 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5392865107634294425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6132616994436845099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4337e08b32d48248bbbd6e2d4a2c246, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 401
-  itemValue: 20
-  itemPrice: 25
-  itemIcon: {fileID: 21300000, guid: b3ec2f9bb8c8f8d4f8df49e6831c425a, type: 3}
-  itemName: Carrot
-  isGrowing: 0
-  fullyGrown: 0
-  growtime: 15
 --- !u!65 &5354147826722355351
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -83,6 +63,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-2940422792866418288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6132616994436845099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7aef7e001831eb45ae1b40312acf07a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 401
+  itemValue: 10
+  itemPrice: 13
+  itemIcon: {fileID: 21300000, guid: b3ec2f9bb8c8f8d4f8df49e6831c425a, type: 3}
+  itemName: Carrot
+  growTime: 10
+  growTimeElapsed: 0
 --- !u!1001 &495307374392630672
 PrefabInstance:
   m_ObjectHideFlags: 0

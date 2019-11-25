@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 8239760689819688196}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.33764, y: 0.33764, z: 0.33764}
   m_Children:
   - {fileID: 2955409487941732782}
   m_Father: {fileID: 0}
@@ -63,7 +63,6 @@ MonoBehaviour:
   _grid: {fileID: 0}
   groundPlot: {fileID: 8864761982100249759, guid: b095db495767a5e44aaa6a31bcef69a4,
     type: 3}
-  headPos: {fileID: 0}
 --- !u!1001 &7816293522537947828
 PrefabInstance:
   m_ObjectHideFlags: 0
