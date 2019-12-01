@@ -8,8 +8,10 @@ public class Interaction : MonoBehaviour
 	/// <summary>
 	/// Purpose: Interfaces with PlayerInventory to add/remove items
 	/// </summary>
-	[SerializeField]private ItemManager _itemManager = null;
+	[SerializeField] private ItemManager _itemManager = null;
 	[SerializeField] private PlayerInventory _playerInv = null;
+	private PlotManager _plotManager = null;
+	private Grid _grid;
 	[SerializeField] private GameObject playerHead = null;
 	[SerializeField] private int lookDistance = 0;
 	PlayerLookRayCast _playerLookRayCast;
@@ -24,38 +26,51 @@ public class Interaction : MonoBehaviour
 		_playerInv = GameSettings.Instance.PlayerInventory;
 		_playerLookRayCast = PlayerLookRayCast.Instance;
 		HandObject.currentlyHoldingTool += IsHoldingTool;
+		_plotManager = PlotManager.Instance;
+		_grid = Grid.Instance;
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (_playerLookRayCast.LookHit.collider != null)
-		{
-			//if The player is looking at a plot
-			if (_playerLookRayCast.LookHit.collider.CompareTag("Plot"))
+		if (Cursor.lockState == CursorLockMode.Locked)
+			//General interaction
+			if (_playerLookRayCast.LookHit.collider != null)
 			{
-				//_playerLookRayCast.LookHit.collider.gameObject.GetComponent<Plot>().GrowthDisplay.gameObject.SetActive(true);
-			}
-
-
-			if (_playerLookRayCast.LookHit.collider.gameObject.CompareTag("BuyingStation"))
-			{
-				if (Input.GetButton("Fire1"))
+				//if The player is looking at a plot
+				if (_playerLookRayCast.LookHit.collider.CompareTag("Plot"))
 				{
-					_playerLookRayCast.LookHit.collider.gameObject.GetComponent<BuyingManager>().OpenBuyingMenu();
+					//_playerLookRayCast.LookHit.collider.gameObject.GetComponent<Plot>().GrowthDisplay.gameObject.SetActive(true);
 				}
-				
+
+				//Buying Station
+				if (_playerLookRayCast.LookHit.collider.gameObject.CompareTag("BuyingStation"))
+				{
+					if (Input.GetButton("Fire1"))
+					{
+						_playerLookRayCast.LookHit.collider.gameObject.GetComponent<BuyingManager>().OpenBuyingMenu();
+					}
+				}
+
+				//Programming Stations
+				if (_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DroneStation>() != null)
+				{
+					if (Input.GetButton("Fire1"))
+					{
+						_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DroneStation>().OpenConsole();
+					}
+				}
+
 			}
-		}
 
 		//First make sure that the player is holding an item (not a tool)
 		if (canUseItem)
 		{
 			if (_playerLookRayCast.LookHit.collider != null)
 				if (Input.GetButtonDown("Fire1"))
-			{
-				Pickup();
-			}
+				{
+					Pickup();
+				}
 			if (Input.GetButtonDown("Fire2"))
 			{
 				Drop();
@@ -80,6 +95,7 @@ public class Interaction : MonoBehaviour
 				Destroy(_playerLookRayCast.LookHit.collider.gameObject);
 			}
 		}
+
 	}
 
 	/// <summary>
@@ -103,6 +119,8 @@ public class Interaction : MonoBehaviour
 					{
 						Plant(_playerLookRayCast.LookHit.collider.gameObject, _itemManager.GetItem(itemId).GetComponent<SeedPack>().PlantId);
 					}
+
+
 					else
 					{
 						ThrowObject();
@@ -112,6 +130,20 @@ public class Interaction : MonoBehaviour
 				{
 					ThrowObject();
 				}
+			}
+			//Placable
+			else if (itemId >= 600 && itemId <= 799)
+			{
+				if (_playerLookRayCast.LookHit.collider != null)
+				{
+					//Get placable item and the point to place at
+					if (_playerLookRayCast.LookHit.collider.CompareTag("Ground"))
+					{
+						PlacePlaceable(_itemManager.GetItem(itemId).GetComponent<Placable>().PlacableObject, _playerLookRayCast.LookHit.point);
+						_playerInv.RemoveFromInventory(itemId);
+					}
+				}
+				
 			}
 			//Otherwise place the item
 			else
@@ -169,5 +201,35 @@ public class Interaction : MonoBehaviour
 			canUseItem = true;
 		}
 
+	}
+
+
+
+	/// <summary>
+	/// Places a placable item
+	/// </summary>
+	/// <param name="placeableObject">The PLACABLE OBJECT to place at the calculated position</param>
+	/// <param name="position">The (RAW) position to place the object</param>
+	private void PlacePlaceable(GameObject placeableObject, Vector3 position)
+	{
+		Vector3 targetPosition = _grid.GetNearestPointOnGrid(position);
+		if (_plotManager.OpenSpot(targetPosition))
+		{
+			GameObject newDroneStation = Instantiate(placeableObject, targetPosition, NearestCardinalRotation());
+			_plotManager.AddPlot(targetPosition, newDroneStation);
+		}
+	}
+
+	/// <summary>
+	/// Calculates the Cardinal Rotation (multiple of 90) to the players position
+	/// </summary>
+	/// <returns>The </returns>
+	private Quaternion NearestCardinalRotation()
+	{
+		Vector3 aimingDir = transform.forward;
+		float angle = -Mathf.Atan2(aimingDir.z, aimingDir.x) * Mathf.Rad2Deg + 90.0f;
+		angle = Mathf.Round(angle / 90.0f) * 90.0f;
+		return Quaternion.AngleAxis(-angle, Vector3.up);
+		
 	}
 }

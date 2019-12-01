@@ -52,27 +52,32 @@ public class HandObject : MonoBehaviour
     {
 		_toolManager = GameSettings.Instance.ToolManager;
 		_itemManager = GameSettings.Instance.ItemManager;
+
+		currentToolInHand = Instantiate(_toolManager.UnlockedTools[0], handPosition);
 	}
 
     // Update is called once per frame
     void Update()
     {
-		//Toggle between holding item and holding tool
-		if (Input.GetKeyDown(KeyCode.T))
-		{
-			if (typeInHand == ObjectTypeInHand.Item)
+		if(Cursor.lockState == CursorLockMode.Locked)
+		{   //Toggle between holding item and holding tool
+			if (Input.GetKeyDown(KeyCode.T))
 			{
-				typeInHand = ObjectTypeInHand.Tool;
-				currentlyHoldingTool(true);
-			}
-			else
-			{
-				typeInHand = ObjectTypeInHand.Item;
-				currentlyHoldingTool(false);
-			}
+				if (typeInHand == ObjectTypeInHand.Item)
+				{
+					typeInHand = ObjectTypeInHand.Tool;
+					currentlyHoldingTool(true);
+				}
+				else
+				{
+					typeInHand = ObjectTypeInHand.Item;
+					currentlyHoldingTool(false);
+				}
 
-			SetObjectsAsActive();
+				SetObjectsAsActive();
+			}
 		}
+	
     }
 
 
@@ -119,7 +124,7 @@ public class HandObject : MonoBehaviour
 	/// <param name="tool">The tool object to set as the current tool.</param>
 	public void SetCurrentTool(GameObject tool)
 	{
-		Object.Destroy(currentToolInHand);
+		Object.Destroy(currentToolInHand.gameObject);
 		currentToolInHand = Instantiate(tool, handPosition);
 	}
 }

@@ -13,13 +13,17 @@ public class Vegetable : Plant, IGrowable
 
 		if (transform.parent != null)
 		{
-			fullGrownScale = transform.localScale;
+			if(transform.parent.GetComponent<Plot>() != null)
+			{
+				fullGrownScale = transform.localScale;
 
-			//Quarter the scale
-			transform.localScale = Vector3.zero;
-			StartGrowing();
-			GetComponent<Collider>().enabled = false;
-			GetComponent<Rigidbody>().isKinematic = true;
+				//Quarter the scale
+				transform.localScale = Vector3.zero;
+				StartGrowing();
+				GetComponent<Collider>().enabled = false;
+				GetComponent<Rigidbody>().isKinematic = true;
+			}
+			
 		}
 	}
 

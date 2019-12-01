@@ -28,7 +28,6 @@ public class ToolSwap : MonoBehaviour
     {
 		_toolManager = GameSettings.Instance.ToolManager;
 		unlockedToolList = _toolManager.UnlockedTools;
-
 		//Bind Delegates
 		ToolManager.refreshToolList += RefreshList;
 		HandObject.currentlyHoldingTool += ToggleToolMode;
@@ -40,7 +39,8 @@ public class ToolSwap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		ChangeTool();
+		
+			ChangeTool();
 	}
 
 	/// <summary>
@@ -63,18 +63,21 @@ public class ToolSwap : MonoBehaviour
 	/// </summary>
 	private void ChangeTool()
 	{
-		if (Input.GetKeyDown(KeyCode.Q))
+		if (Cursor.lockState == CursorLockMode.Locked)
 		{
-			currentTool--;			
-			SetCurrentTool();
+			if (Input.GetKeyDown(KeyCode.Q))
+			{
+				currentTool--;
+				SetCurrentTool();
+			}
+			if (Input.GetKeyDown(KeyCode.E))
+			{
+				currentTool++;
+				SetCurrentTool();
+			}
 		}
-		if (Input.GetKeyDown(KeyCode.E))
-		{
-			currentTool++;
-			SetCurrentTool();
-		}
-	
 	}
+
 
 	/// <summary>
 	/// Returns the currently equipped Tool

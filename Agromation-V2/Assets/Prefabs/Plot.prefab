@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 5386631183811698310}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -0.03860004, y: 0.038600042, z: 0.038600042}
+  m_LocalScale: {x: 0.03860004, y: 0.038600042, z: 0.038600042}
   m_Children: []
   m_Father: {fileID: 3520305645341165159}
   m_RootOrder: 0
@@ -58,18 +58,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 0.116251945, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 49f35eac24459d74882571e45ce7adc5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2f1e0a5d226133b4887b9a0b2294bacf, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
-  m_FillClockwise: 1
+  m_FillClockwise: 0
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1

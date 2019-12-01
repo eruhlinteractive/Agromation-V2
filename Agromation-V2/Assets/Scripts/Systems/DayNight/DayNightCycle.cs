@@ -31,6 +31,12 @@ public class DayNightCycle : MonoBehaviour
 	[SerializeField] private float sunVariation = 1.5f;
 	[SerializeField] private Gradient sunColor;
 
+
+	//Delegates
+	public delegate void NewDay();
+	public static NewDay newDay;
+
+
 	[Header("Modules")]
 	private List<DayNight_ModuleBase> moduleList = new List<DayNight_ModuleBase>();
 
@@ -67,6 +73,8 @@ public class DayNightCycle : MonoBehaviour
 			dayNumber++;
 			timeOfDay -= 1;
 			dayCountDisplay.text = "Day: " + dayNumber;
+			//Call newDay Delegate
+			newDay();
 		}
 	}
 

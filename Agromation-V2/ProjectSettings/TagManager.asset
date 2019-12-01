@@ -9,6 +9,7 @@ TagManager:
   - Plant
   - Plot
   - BuyingStation
+  - Placable
   layers:
   - Default
   - TransparentFX

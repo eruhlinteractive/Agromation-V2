@@ -96,7 +96,7 @@ MonoBehaviour:
   itemId: 402
   itemValue: 80
   itemPrice: 95
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: c0c9adc1325fc8e44b2b4997d554ad47, type: 3}
   itemName: Tomato
 --- !u!65 &4270053728420590098
 BoxCollider:
