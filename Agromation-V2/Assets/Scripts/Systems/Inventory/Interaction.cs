@@ -52,13 +52,17 @@ public class Interaction : MonoBehaviour
 					}
 				}
 
-				//Programming Stations
-				if (_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DroneStation>() != null)
+				//If not in tool mode
+				if(canUseItem)
+				{
+					//Programming Stations
+					if (_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DroneStation>() != null)
 				{
 					if (Input.GetButton("Fire1"))
 					{
 						_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DroneStation>().OpenConsole();
 					}
+				}
 				}
 
 			}
@@ -137,13 +141,32 @@ public class Interaction : MonoBehaviour
 				if (_playerLookRayCast.LookHit.collider != null)
 				{
 					//Get placable item and the point to place at
-					if (_playerLookRayCast.LookHit.collider.CompareTag("Ground"))
+					if (_playerLookRayCast.LookHit.collider.CompareTag("Ground") && (Vector3.Distance(transform.position, _playerLookRayCast.LookHit.point) < 5f))
 					{
-						PlacePlaceable(_itemManager.GetItem(itemId).GetComponent<Placable>().PlacableObject, _playerLookRayCast.LookHit.point);
-						_playerInv.RemoveFromInventory(itemId);
+
+						PlacePlaceable(_itemManager.GetItem(itemId).GetComponent<Placable>().PlacableObject, _playerLookRayCast.LookHit.point,itemId);
+						
 					}
+					//Is the player holding a drone item?
+					else if (itemId == 603 || itemId == 604)
+					{
+						if(_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DronePad>() != null)
+						{
+							PlaceDrone(_itemManager.GetItem(itemId).GetComponent<Placable>().PlacableObject,
+								_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DronePad>());
+							_playerInv.RemoveFromInventory(itemId);
+						}
+					}
+
+				else
+				{
+					ThrowObject();
 				}
-				
+				}
+				else
+				{
+					ThrowObject();
+				}
 			}
 			//Otherwise place the item
 			else
@@ -210,14 +233,26 @@ public class Interaction : MonoBehaviour
 	/// </summary>
 	/// <param name="placeableObject">The PLACABLE OBJECT to place at the calculated position</param>
 	/// <param name="position">The (RAW) position to place the object</param>
-	private void PlacePlaceable(GameObject placeableObject, Vector3 position)
+	private void PlacePlaceable(GameObject placeableObject, Vector3 position,int itemId)
 	{
 		Vector3 targetPosition = _grid.GetNearestPointOnGrid(position);
 		if (_plotManager.OpenSpot(targetPosition))
 		{
-			GameObject newDroneStation = Instantiate(placeableObject, targetPosition, NearestCardinalRotation());
-			_plotManager.AddPlot(targetPosition, newDroneStation);
+			GameObject newPlacable = Instantiate(placeableObject, targetPosition + placeableObject.transform.localScale.y/2 * Vector3.up, NearestCardinalRotation());
+			_plotManager.AddPlot(targetPosition, newPlacable);
+			_playerInv.RemoveFromInventory(itemId);
 		}
+	}
+	/// <summary>
+	/// Places a drone and links it to the pad it was placed on
+	/// </summary>
+	/// <param name="placeableObject">The drone to place</param>
+	/// <param name="pad">The drone pad to place it on</param>
+	private void PlaceDrone(GameObject placeableObject, DronePad pad)
+	{
+		Vector3 targetPosition = pad.transform.position + (placeableObject.transform.localScale.y /2 * Vector3.up);
+		GameObject newDrone = Instantiate(placeableObject, targetPosition, NearestCardinalRotation());
+		pad.LinkDrone(newDrone.GetComponent<DroneControl>());
 	}
 
 	/// <summary>

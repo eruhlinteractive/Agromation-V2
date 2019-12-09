@@ -18,7 +18,7 @@ public class DroneControl : MonoBehaviour
 	[SerializeField] private float moveSpeed;
 	[SerializeField] private float rotSpeed;
 
-
+	[SerializeField] bool isGroundDrone = false;
 
 	public bool startparse = false;
 
@@ -30,7 +30,7 @@ public class DroneControl : MonoBehaviour
     void Start()
     {
 		_grid = Grid.Instance;
-		homePos = _grid.GetNearestPointOnGrid(transform.position);
+		homePos = _grid.GetNearestPointOnGridWithY(transform.position);
 		//homePos = homePos + (Vector3.up * (transform.position.y - homePos.y));
 		transform.position = homePos;
 		homeRot = transform.rotation;
@@ -40,6 +40,14 @@ public class DroneControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (isGroundDrone)
+		{
+			RaycastHit hit;
+			if(Physics.Raycast(transform.position - transform.localScale.y/2 * Vector3.up,Vector3.down, out hit, 3f))
+			{
+				transform.position = new Vector3(transform.position.x, hit.point.y + transform.localScale.y / 2, transform.position.z);
+			}
+		}
 		if (startparse)
 		{
 			if(!isParsing)
@@ -140,9 +148,9 @@ public class DroneControl : MonoBehaviour
 				Quaternion targetRot = transform.rotation * Quaternion.AngleAxis(90, Vector3.up);
 
 				//Rotate to target rotation
-				while(transform.rotation != targetRot)
+				while(Quaternion.Angle(transform.rotation,targetRot) > 1f)
 				{
-					transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime * rotSpeed);
+					transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotSpeed);
 					yield return new WaitForSeconds(0.01f);
 				}
 				
@@ -151,9 +159,9 @@ public class DroneControl : MonoBehaviour
 			{
 				Quaternion targetRot =  transform.rotation * Quaternion.AngleAxis(-90, Vector3.up);
 				//Rotate to target rotation
-				while(transform.rotation != targetRot)
+				while (Quaternion.Angle(transform.rotation, targetRot) > 1f)
 				{
-					transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime * rotSpeed);
+					transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotSpeed);
 					yield return new WaitForSeconds(0.01f);
 				}
 			}
@@ -161,28 +169,43 @@ public class DroneControl : MonoBehaviour
 			//Return Commands
 			else if(commands[i] == "RETURN")
 			{
-				//Lerp to position
-				while (Vector3.Distance(transform.position, homePos) > 0.5f)
+				Quaternion targetRot = Quaternion.LookRotation(homePos - transform.position,transform.up);
+				//Face home position
+				while (Quaternion.Angle(transform.rotation,targetRot) > 4f)
 				{
-					transform.position = Vector3.Lerp(transform.position, homePos, Time.deltaTime * moveSpeed);
-					transform.rotation = Quaternion.Lerp(transform.rotation, homeRot, Time.deltaTime * rotSpeed);
+					transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotSpeed);
+					//Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(lookAtHomeRot, Vector3.up), Time.deltaTime * rotSpeed);
 					yield return new WaitForSeconds(0.01f);
 				}
-				//Lerp to rotation
-				while (transform.rotation != homeRot)
+
+
+				//Lerp to home position
+				while (Vector3.Distance(transform.position, new Vector3(homePos.x,transform.position.y,homePos.z)) > 0.01f)
 				{
-					transform.rotation = Quaternion.Lerp(transform.rotation, homeRot, Time.deltaTime * rotSpeed);
+					transform.position = Vector3.MoveTowards(transform.position, new Vector3(homePos.x, transform.position.y, homePos.z), Time.deltaTime * moveSpeed);
+					yield return new WaitForSeconds(0.01f);
+				}
+
+
+				//Lerp to original "resting" rotation
+				while (Quaternion.Angle(transform.rotation, homeRot) > 1f)
+				{
+					transform.rotation = Quaternion.Slerp(transform.rotation, homeRot, Time.deltaTime * rotSpeed);
 					yield return new WaitForSeconds(0.01f);
 				}
 			}
+			
+
+			//Movement Commands
 			else
 			{
 				int movDist = int.Parse(commands[i]);
-				Vector3 targetPoint = _grid.GetNearestPointOnGrid((transform.position + (transform.forward * movDist)));
+				Vector3 targetPoint = _grid.GetNearestPointOnGridWithY((transform.position + (transform.forward * movDist)));
 
-				while(Vector3.Distance(transform.position,targetPoint) > 0.01f)
+				while (Vector3.Distance(transform.position, new Vector3(targetPoint.x,transform.position.y,targetPoint.z)) > 0.01f)
 				{
-					transform.position = Vector3.Lerp(transform.position, targetPoint, Time.deltaTime * moveSpeed);
+					transform.position = Vector3.MoveTowards(transform.position, targetPoint, Time.deltaTime * moveSpeed);
+					
 					yield return new WaitForSeconds(0.01f);
 				}
 					

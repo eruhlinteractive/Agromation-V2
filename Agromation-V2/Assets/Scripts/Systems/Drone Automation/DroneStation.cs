@@ -5,7 +5,7 @@ using UnityEngine;
 public class DroneStation : MonoBehaviour
 {
 
-	[SerializeField] private DroneControl drone;
+	[SerializeField] private DronePad linkedPad;
 	[SerializeField] private string instructions;
 	[SerializeField] private PlayerControlManager _playerControlManager;
 	[SerializeField] private GameObject programmingUI;
@@ -47,24 +47,17 @@ public class DroneStation : MonoBehaviour
 	public void TransferInstructions(string instructionString)
 	{
 		instructions = instructionString;
-		Debug.Log("Got instructions:" + instructionString);
+		//Debug.Log("Got instructions:" + instructionString);
 
-		if(drone != null)
+		if(linkedPad != null)
 		{
 			//Apply new commands to the drone
-			drone.SetCommands(instructions);
+			linkedPad.SetDroneCommands(instructionString);
 		}
 	}
 
-	/// <summary>
-	/// Links the drone to the current control station
-	/// </summary>
-	/// <param name="droneToAdd">The drone to link to this station</param>
-	public void AddDrone(DroneControl droneToAdd)
+	public void LinkDronePad(DronePad padToLink)
 	{
-		if(drone == null)
-		{
-			drone = droneToAdd;
-		}
+		linkedPad = padToLink;
 	}
 }
