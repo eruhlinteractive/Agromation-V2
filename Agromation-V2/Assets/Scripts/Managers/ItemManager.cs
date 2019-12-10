@@ -59,9 +59,17 @@ public class ItemManager : ScriptableObject
 		//Debug.Log("Filling Items");
 		for (int i = 0; i < itemIndex.Items.Count; i++)
 		{
-			//Add an item into the list
-			_items.Add(itemIndex.Items[i].GetComponent<Item>().Id, itemIndex.Items[i]);
-
+			if(itemIndex.items[i] == null)
+			{
+				itemIndex.items.RemoveAt(i);
+				i--;
+			}
+			else
+			{
+				//Add an item into the list
+				_items.Add(itemIndex.Items[i].GetComponent<Item>().Id, itemIndex.Items[i]);
+			}
+			
 			//Debug.Log("Item id:" + itemIndex.Items[i].GetComponent<Item>().Id);
 			//Debug.Log("Item added to master index:" + itemIndex.items[i].name);
 		}

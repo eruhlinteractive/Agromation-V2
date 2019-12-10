@@ -5,8 +5,9 @@ using UnityEngine;
 public class DronePad : MonoBehaviour
 {
 	DroneStation linkedStation;
-	DroneControl linkedDrone;
+	DroneControl linkedDrone = null;
 
+	public DroneControl LinkedDrone { get { return linkedDrone; } }
 
 	public void LinkStation(DroneStation stationToLink)
 	{

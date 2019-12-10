@@ -122,9 +122,8 @@ public class Interaction : MonoBehaviour
 					if (_playerLookRayCast.LookHit.collider.CompareTag("Plot") && !(_playerLookRayCast.LookHit.collider.gameObject.GetComponent<Plot>().IsPlanted))
 					{
 						Plant(_playerLookRayCast.LookHit.collider.gameObject, _itemManager.GetItem(itemId).GetComponent<SeedPack>().PlantId);
+						_playerInv.RemoveFromInventory(itemId);
 					}
-
-
 					else
 					{
 						ThrowObject();
@@ -135,33 +134,47 @@ public class Interaction : MonoBehaviour
 					ThrowObject();
 				}
 			}
-			//Placable
+
+			//Is the item a placable	
 			else if (itemId >= 600 && itemId <= 799)
 			{
 				if (_playerLookRayCast.LookHit.collider != null)
 				{
-					//Get placable item and the point to place at
-					if (_playerLookRayCast.LookHit.collider.CompareTag("Ground") && (Vector3.Distance(transform.position, _playerLookRayCast.LookHit.point) < 5f))
-					{
-
-						PlacePlaceable(_itemManager.GetItem(itemId).GetComponent<Placable>().PlacableObject, _playerLookRayCast.LookHit.point,itemId);
-						
-					}
+					
 					//Is the player holding a drone item?
-					else if (itemId == 603 || itemId == 604)
+					if (itemId == 603 || itemId == 604)
 					{
+						//Are they looking at a drone pad
 						if(_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DronePad>() != null)
 						{
-							PlaceDrone(_itemManager.GetItem(itemId).GetComponent<Placable>().PlacableObject,
+							Debug.Log(_playerLookRayCast.LookHit.collider.gameObject.name);
+							//Make sure there isnt already a drone linked to the pad
+							if(_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DronePad>().LinkedDrone == null)
+							{
+								PlaceDrone(_itemManager.GetItem(itemId).GetComponent<Placable>().PlacableObject,
 								_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DronePad>());
-							_playerInv.RemoveFromInventory(itemId);
+								_playerInv.RemoveFromInventory(itemId);
+							}
+						}
+						//Player isnt looking at a drone pad and can't place drone
+						else
+						{
+							ThrowObject();
 						}
 					}
 
-				else
-				{
-					ThrowObject();
-				}
+					//If they are NOT holding a drone item
+					//Get placable item and the point to place at
+					else if (_playerLookRayCast.LookHit.collider.CompareTag("Ground") && (Vector3.Distance(transform.position, _playerLookRayCast.LookHit.point) < 5f))
+					{
+						PlacePlaceable(_itemManager.GetItem(itemId).GetComponent<Placable>().PlacableObject, _playerLookRayCast.LookHit.point, itemId);
+
+					}
+
+					else
+					{
+						ThrowObject();
+					}
 				}
 				else
 				{
@@ -174,7 +187,7 @@ public class Interaction : MonoBehaviour
 				ThrowObject();
 			}
 
-			_playerInv.RemoveFromInventory(itemId);
+			
 		}
 	}
 
@@ -188,6 +201,7 @@ public class Interaction : MonoBehaviour
 				Quaternion.identity);
 		//"Throw" instantiated object
 		placedObject.GetComponent<Rigidbody>().AddForce(playerHead.transform.forward * 2, ForceMode.Impulse);
+		_playerInv.RemoveFromInventory(_playerInv.currentSelectedId);
 
 	}
 
@@ -207,7 +221,6 @@ public class Interaction : MonoBehaviour
 			plot.transform);
 	}
 
-
 	/// <summary>
 	/// Checks HandObject.cs to see if the player is holding a tool currently
 	/// If NOT, then the player uses the item on input
@@ -226,8 +239,6 @@ public class Interaction : MonoBehaviour
 
 	}
 
-
-
 	/// <summary>
 	/// Places a placable item
 	/// </summary>
@@ -236,13 +247,17 @@ public class Interaction : MonoBehaviour
 	private void PlacePlaceable(GameObject placeableObject, Vector3 position,int itemId)
 	{
 		Vector3 targetPosition = _grid.GetNearestPointOnGrid(position);
+
+		//Check if the land plot is open
 		if (_plotManager.OpenSpot(targetPosition))
 		{
-			GameObject newPlacable = Instantiate(placeableObject, targetPosition + placeableObject.transform.localScale.y/2 * Vector3.up, NearestCardinalRotation());
+			GameObject newPlacable = Instantiate(placeableObject, targetPosition + placeableObject.transform.localScale.y/2 * Vector3.up,Quaternion.identity);
+			newPlacable.transform.rotation = NearestCardinalRotation();	//Set the rotation of the new object
 			_plotManager.AddPlot(targetPosition, newPlacable);
 			_playerInv.RemoveFromInventory(itemId);
 		}
 	}
+
 	/// <summary>
 	/// Places a drone and links it to the pad it was placed on
 	/// </summary>
@@ -261,10 +276,39 @@ public class Interaction : MonoBehaviour
 	/// <returns>The </returns>
 	private Quaternion NearestCardinalRotation()
 	{
-		Vector3 aimingDir = transform.forward;
-		float angle = -Mathf.Atan2(aimingDir.z, aimingDir.x) * Mathf.Rad2Deg + 90.0f;
-		angle = Mathf.Round(angle / 90.0f) * 90.0f;
-		return Quaternion.AngleAxis(-angle, Vector3.up);
+		Vector3 alignedForward = NearestWorldAxis(transform.forward);
+		Vector3 alignedUp = NearestWorldAxis(transform.up);
+
+		//-alignedForward - Face player
+		Quaternion rotation = Quaternion.LookRotation(-alignedForward, alignedUp);
+		return rotation;
 		
 	}
+
+	/// <summary>
+	/// Finds the neares world axis to the v parameter
+	/// </summary>
+	/// <param name="v">The vector to find the nearest world axis to</param>
+	/// <returns> A vector3 of the nearest world vector</returns>
+	private Vector3 NearestWorldAxis(Vector3 v)
+	{
+		if (Mathf.Abs(v.x) < Mathf.Abs(v.y))
+		{
+			v.x = 0;
+			if (Mathf.Abs(v.y) < Mathf.Abs(v.z))
+				v.y = 0;
+			else
+				v.z = 0;
+		}
+		else
+		{
+			v.y = 0;
+			if (Mathf.Abs(v.x) < Mathf.Abs(v.z))
+				v.x = 0;
+			else
+				v.z = 0;
+		}
+		return v;
+	}
+
 }

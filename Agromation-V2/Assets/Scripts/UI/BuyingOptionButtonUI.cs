@@ -18,7 +18,7 @@ public class BuyingOptionButtonUI : MonoBehaviour
 
 	public void OnClick()
 	{
-		Debug.Log("Button Fired");
+		//Debug.Log("Button Fired");
 		clicked(buttonId);
 	}
 

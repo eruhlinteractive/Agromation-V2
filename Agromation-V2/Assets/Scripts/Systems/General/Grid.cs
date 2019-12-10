@@ -9,6 +9,7 @@ public class Grid : MonoBehaviour {
 
 	private static Grid instance;
 	public static Grid Instance { get { return instance; } }
+	public float Size { get { return size; } }
 
 
 	private void Awake()
@@ -17,16 +18,6 @@ public class Grid : MonoBehaviour {
 		{
 			instance = this;
 		}
-	}
-
-	// Use this for initialization
-	void Start () {
-
-		//PlaceGround();
-	}
-	
-	// Update is called once per frame
-	void Update () {
 	}
 
 	public Vector3 GetNearestPointOnGrid(Vector3 position)

@@ -5,6 +5,12 @@ using UnityEngine;
 public class PlotManager : MonoBehaviour
 {
 	Dictionary<Vector3, GameObject> plotIndex = new Dictionary<Vector3, GameObject>();
+	Dictionary<Vector3, GameObject> fences = new Dictionary<Vector3, GameObject>();
+
+	//TESTING
+	public GameObject sphere;
+
+	private Grid _grid;
 	private static PlotManager instance;
 	public static PlotManager Instance { get { return instance; } }
 
@@ -19,13 +25,7 @@ public class PlotManager : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-       
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+		_grid = Grid.Instance;
     }
 
 	/// <summary>
@@ -52,10 +52,32 @@ public class PlotManager : MonoBehaviour
 	/// <param name="newPlot">The new plot gameObject</param>
 	public void AddPlot(Vector3 pos, GameObject newPlot)
 	{
+		//Add the current plot
 		plotIndex.Add(pos, newPlot);
+
+		if (newPlot.GetComponent<Fence>() != null)
+		{
+			fences.Add(pos,newPlot);
+
+			//Get a list of all adjacent posts
+			List<Vector3> adjacentPosts = CheckForAdjacentFencePosts(pos);
+			//Debug.Log(adjacentPosts.Count);
+			//If there is an adjacent plot
+			if (adjacentPosts.Count != 0)
+			{
+				//For every adjacent plot
+				for (int i = 0; i < adjacentPosts.Count; i++)
+				{
+					
+					Vector3 posToPlace = (pos - adjacentPosts[i]) / 2 + adjacentPosts[i];
+					posToPlace = new Vector3(posToPlace.x, 1, posToPlace.z);
+					Instantiate(sphere, posToPlace, Quaternion.LookRotation(pos - adjacentPosts[i]));
+				}
+			
+			}
+		}
 	}
 	
-
 	/// <summary>
 	/// Destroys the plot and removes it from the plotIndex
 	/// </summary>
@@ -66,6 +88,8 @@ public class PlotManager : MonoBehaviour
 		Destroy(plotIndex[pos]);
 		//Remove it from index
 		plotIndex.Remove(pos);
+
+		//TO:DO- Add fence removal code
 	}
 
 	/// <summary>
@@ -100,5 +124,41 @@ public class PlotManager : MonoBehaviour
 		{
 			return null;
 		}
+	}
+
+	/// <summary>
+	/// Checks each of the cardinal directions around the post to see if there is another fence post
+	/// </summary>
+	/// <param name="pos">The position of the newly placed fence post</param>
+	/// <returns>A list of all adjacent posts</returns>
+	public List<Vector3> CheckForAdjacentFencePosts(Vector3 pos)
+	{
+		List<Vector3> adjacentPosts = new List<Vector3>();
+		//Instantiate(sphere, _grid.GetNearestPointOnGridWithY(pos + Vector3.forward * _grid.Size), Quaternion.identity);
+		//Instantiate(sphere, _grid.GetNearestPointOnGridWithY(pos - Vector3.forward * _grid.Size), Quaternion.identity);
+		//Instantiate(sphere, _grid.GetNearestPointOnGridWithY(pos + Vector3.right * _grid.Size), Quaternion.identity);
+		//Instantiate(sphere, _grid.GetNearestPointOnGridWithY(pos - Vector3.right * _grid.Size), Quaternion.identity);
+
+		if (fences.ContainsKey(_grid.GetNearestPointOnGridWithY(pos + Vector3.forward * _grid.Size)))
+		{
+			adjacentPosts.Add(_grid.GetNearestPointOnGridWithY(pos + Vector3.forward* _grid.Size));
+		}
+
+		if (fences.ContainsKey(_grid.GetNearestPointOnGridWithY(pos + Vector3.back * _grid.Size)))
+		{
+			adjacentPosts.Add(_grid.GetNearestPointOnGridWithY(pos + Vector3.back * _grid.Size));
+		}
+
+		if (fences.ContainsKey(_grid.GetNearestPointOnGridWithY(pos + Vector3.right * _grid.Size)))
+		{
+			adjacentPosts.Add(_grid.GetNearestPointOnGridWithY(pos + Vector3.right * _grid.Size));
+		}
+
+		 if (fences.ContainsKey(_grid.GetNearestPointOnGridWithY(pos + Vector3.left * _grid.Size)))
+		{
+			adjacentPosts.Add(_grid.GetNearestPointOnGridWithY(pos + Vector3.left * _grid.Size));
+		}
+
+		return adjacentPosts;
 	}
 }

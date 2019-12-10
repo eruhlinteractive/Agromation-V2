@@ -56,6 +56,10 @@ public class DroneStation : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Sets the pad the station is linked to
+	/// </summary>
+	/// <param name="padToLink">The drone pad to link to this station</param>
 	public void LinkDronePad(DronePad padToLink)
 	{
 		linkedPad = padToLink;

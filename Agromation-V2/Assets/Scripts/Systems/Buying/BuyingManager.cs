@@ -9,41 +9,45 @@ public class BuyingManager : MonoBehaviour
 	[SerializeField] private Transform itemSpawnPoint;
 	[SerializeField] private PlayerControlManager _playerControlManager;
 	[SerializeField] private GameObject buyMenu;
+	private PlayerInventory _playerInv;
 
 	public delegate void ItemBought(bool wasItemBought);
 	public static ItemBought wasItemBought;
 
-    // Start is called before the first frame update
-    void Start()
+	// Start is called before the first frame update
+	void Start()
     {
 		_itemManager = GameSettings.Instance.ItemManager;
 		_playerStats = GameSettings.Instance.PlayerStats;
 		_playerControlManager = GameSettings.Instance.PlayerControlManager;
+		_playerInv = GameSettings.Instance.PlayerInventory;
 		buyMenu.SetActive(false);
 
 		UIBuyingMenuController.tryPurchase += BuyItem;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
+	/// <summary>
+	/// Opens buying menu and locks player movement
+	/// </summary>
 	public void OpenBuyingMenu()
 	{
 		_playerControlManager.UnlockCursor();
 		buyMenu.SetActive(true);
 	}
-	
+
+	/// <summary>
+	/// Closes the buying menu Ui and unlocks player movement
+	/// </summary>
 	public void CloseBuyingMenu()
 	{
 		_playerControlManager.LockCursor();
 		buyMenu.SetActive(false);
 	}
 
-
+	/// <summary>
+	/// Buy the currently selected item from the menu
+	/// </summary>
+	/// <param name="itemId">The itemId of the item being bought</param>
 	public void BuyItem(int itemId)
 	{
 		int itemValue = _itemManager.GetItem(itemId).gameObject.GetComponent<Item>().Price;
@@ -52,8 +56,15 @@ public class BuyingManager : MonoBehaviour
 		if(_playerStats.Money >= itemValue)
 		{
 			_playerStats.RemoveMoney(itemValue);
-			SpawnItem(itemId);
-
+			{
+				//Try to add the item directly to inventory
+				if (!_playerInv.AddToInventory(itemId))
+				{
+					Debug.Log(itemId);
+					//If that fails, spawn the item instead
+					SpawnItem(itemId);
+				}
+			}
 			//Send feedBack to the UI
 			wasItemBought(true);
 		}

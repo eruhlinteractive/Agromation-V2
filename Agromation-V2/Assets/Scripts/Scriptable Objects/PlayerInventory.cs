@@ -91,27 +91,29 @@ public class PlayerInventory : ScriptableObject
 	public bool AddToInventory(int itemId)
 	{ 
 
-		//Is there room in the inventory?
-		if (itemsInInventory.Count < maxItemsInInventory)
+		//Debug.Log(itemsInInventory.Count + " items in inventory");
+		//Is it a valid item?
+		if (_itemManager.ValidItem(itemId))
 		{
-			//Debug.Log(itemsInInventory.Count + " items in inventory");
-			//Is it a valid item?
-			if (_itemManager.ValidItem(itemId))
+			//Debug.Log("VALID ITEM");
+			//Check if the item is already in the inventory
+			if (IsItemInInventory(itemId))
 			{
-				//Debug.Log("VALID ITEM");
-				//Check if the item is already in the inventory
-				if (IsItemInInventory(itemId))
-				{
-					//Increment the item amount
-					itemsInInventory[itemId]++;
+				//Increment the item amount
+				itemsInInventory[itemId]++;
 
 
-					if(itemsInInventory.ContainsKey(itemId))
-					itemAmountUpdate(itemId, itemsInInventory[itemId]);//Call delegate
-					//Debug.Log("Increased amount in inventory");
+				if(itemsInInventory.ContainsKey(itemId))
+				itemAmountUpdate(itemId, itemsInInventory[itemId]);//Call delegate
+				 //Debug.Log("Increased amount in inventory");
+				return true;	//Item amount was updated
+			}
 
-				}
-				else
+			//Otherwise, if the item is NOT currently in the inventory
+			else
+			{
+			//Is there room in the inventory?
+				if (itemsInInventory.Count < maxItemsInInventory)
 				{
 					//Add to inventory
 					//Debug.Log("Added item: " + itemId + " to inventory");
@@ -119,11 +121,16 @@ public class PlayerInventory : ScriptableObject
 
 					//Call itemAdded Delegate
 					addedItem(itemId);
-				}
 				return true;
-
+				}
+				//There was no room left in the inventory
+				return false;
+				
 			}
+			
 		}
+			
+	
 		return false;
 	}
 

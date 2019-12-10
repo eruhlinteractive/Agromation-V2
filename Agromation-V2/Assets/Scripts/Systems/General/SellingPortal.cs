@@ -25,10 +25,14 @@ public class SellingPortal : MonoBehaviour
 	{
 		if (collision.gameObject.CompareTag("Item"))
 		{
+
 			int itemValue = collision.gameObject.GetComponent<Item>().Value;
-			Destroy(collision.gameObject);
-			_playerStats.AddMoney(itemValue);
-			particleEffect.Play();
+			if (itemValue > 0)
+			{
+				Destroy(collision.gameObject);
+				_playerStats.AddMoney(itemValue);
+				particleEffect.Play();
+			}
 			
 		}
 	}

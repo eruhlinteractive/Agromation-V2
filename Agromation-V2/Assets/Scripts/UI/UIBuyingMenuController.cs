@@ -21,7 +21,7 @@ public class UIBuyingMenuController : MonoBehaviour
 	[SerializeField] private Image displayImage;
 	[SerializeField] private Text selectedItemName;
 	[SerializeField] private Text selectedItemValue;
-	//[SerializeField] private
+	[SerializeField] private BuyingManager _buyingManager;
 
 	#endregion
 
@@ -29,15 +29,11 @@ public class UIBuyingMenuController : MonoBehaviour
 	//Delegate
 	public delegate void PurchaseButtonClicked(int currentId);
 	public static PurchaseButtonClicked tryPurchase;
-
-
 	// Start is called before the first frame update
 	void Start()
     {
-
 		//Link delegates
 		BuyingManager.wasItemBought += PurchaseFeedback;
-
 		BuyingOptionButtonUI.clicked += SelectItem;
 		_itemManager = GameSettings.Instance.ItemManager;
 
@@ -58,6 +54,9 @@ public class UIBuyingMenuController : MonoBehaviour
 		}
 
 		selectionScrollBar.maxValue = buyableItems.Count;
+		//Set height of selection menu
+		selectionListHolder.GetComponent<RectTransform>().sizeDelta = new Vector2(selectionListHolder.GetComponent<RectTransform>().sizeDelta.x,
+			selectionButtons.Count * 100);
 	}
 
 	private void Update()
