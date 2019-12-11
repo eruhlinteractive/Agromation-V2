@@ -37,7 +37,7 @@ public class DroneContolUI : MonoBehaviour
 	/// </summary>
 	public void Save()
 	{
-		Debug.Log(instructions.text);
+		//Debug.Log(instructions.text);
 		connectedStation.TransferInstructions(instructions.text);
 	}
 

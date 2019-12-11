@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 public class BuyingOptionButtonUI : MonoBehaviour
 {
@@ -21,6 +20,4 @@ public class BuyingOptionButtonUI : MonoBehaviour
 		//Debug.Log("Button Fired");
 		clicked(buttonId);
 	}
-
-
 }

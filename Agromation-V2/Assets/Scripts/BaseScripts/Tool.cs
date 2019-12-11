@@ -9,5 +9,5 @@ public class Tool : MonoBehaviour
 
 	public string ToolName { get => toolName;}
 	public Sprite Icon { get => icon;}
-	
+
 }

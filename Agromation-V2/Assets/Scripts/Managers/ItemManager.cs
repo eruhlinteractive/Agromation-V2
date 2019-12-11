@@ -123,6 +123,11 @@ public class ItemManager : ScriptableObject
 		}
 	}
 
+	public Sprite GetItemIcon(int itemId)
+	{
+		return _items[itemId].GetComponent<Item>().Icon;
+	}
+
 	/// <summary>
 	/// Returns the ID of a gameObject if its part of the master object collection
 	/// </summary>

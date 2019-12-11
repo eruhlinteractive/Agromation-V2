@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8434636992124267161}
   - component: {fileID: 7465431494162775657}
+  - component: {fileID: -244553846595186253}
   m_Layer: 2
   m_Name: Pickaxe_Tool
   m_TagString: Untagged
@@ -46,6 +47,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 0626b924325d1c34cafa6b22297f4e4f, type: 3}
   toolName: Pickaxe
+--- !u!114 &-244553846595186253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893653445693421705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b6768bcf89b97442ba19ed7218734a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6681534551966616652
 GameObject:
   m_ObjectHideFlags: 0

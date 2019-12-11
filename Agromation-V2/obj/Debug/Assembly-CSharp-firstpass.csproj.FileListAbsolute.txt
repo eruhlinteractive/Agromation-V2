@@ -276,3 +276,17 @@ C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\obj\Debug\As
 C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\obj\Debug\Assembly-CSharp-firstpass.csproj.CopyComplete
 C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\obj\Debug\Assembly-CSharp-firstpass.dll
 C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\obj\Debug\Assembly-CSharp-firstpass.pdb
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.RenderPipelines.Core.Editor.dll
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.RenderPipelines.Core.Runtime.dll
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.RenderPipelines.Core.ShaderLibrary.dll
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Editor.dll
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Runtime.dll
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.ShaderGraph.Editor.dll
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.RenderPipelines.Core.Editor.pdb
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.RenderPipelines.Core.Runtime.pdb
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Runtime.pdb
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.RenderPipelines.Lightweight.Editor.pdb
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.pdb
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.ShaderGraph.Editor.pdb
+C:\Users\Ethan\Documents\Unity Projects\Agromation-V2\Agromation-V2\Temp\bin\Debug\Unity.RenderPipelines.Core.ShaderLibrary.pdb

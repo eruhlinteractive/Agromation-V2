@@ -166,4 +166,36 @@ public class PlayerInventory : ScriptableObject
 		}
 	}
 
+	/// <summary>
+	/// Removes an item of a specified ID from the inventory(if its already in it) by specified amount
+	/// </summary>
+	/// <param name="itemId">The id of the item to remove</param>
+	/// <param name="amount">The amount of a given item to remove</param>
+	public void RemoveFromInventory(int itemId, int amount)
+	{
+
+		//Is the itemId valid?
+		if (_itemManager.ValidItem(itemId))
+		{
+			//Is it in the inventory already?
+			if (itemsInInventory.ContainsKey(itemId))
+			{
+				itemsInInventory[itemId] -= amount;
+
+				//If there arent any left in the inventory
+				if (itemsInInventory[itemId] <= 0)
+				{
+					itemsInInventory.Remove(itemId);
+
+					//Call removedItem Delegate
+					removedItem(itemId);
+				}
+				else
+				{
+					//Update Amount
+					itemAmountUpdate(itemId, itemsInInventory[itemId]);
+				}
+			}
+		}
+	}
 }

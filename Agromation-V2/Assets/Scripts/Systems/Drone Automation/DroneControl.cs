@@ -128,11 +128,11 @@ public class DroneControl : MonoBehaviour
 
 			}
 			//Check if it was a return Command
-			else if(singleInstructionSplit[0].ToUpper().Trim() == "RETURN")
-			{
-				commands.Add("RETURN");
-				
-			}
+		//else if(singleInstructionSplit[0].ToUpper().Trim() == "RETURN")
+		//{
+		//	commands.Add("RETURN");
+		//	
+		//}
 
 		}
 		StartCoroutine(RunCommands());
@@ -165,37 +165,6 @@ public class DroneControl : MonoBehaviour
 					yield return new WaitForSeconds(0.01f);
 				}
 			}
-
-			//Return Commands
-			else if(commands[i] == "RETURN")
-			{
-				Quaternion targetRot = Quaternion.LookRotation(homePos - transform.position,transform.up);
-				//Face home position
-				while (Quaternion.Angle(transform.rotation,targetRot) > 4f)
-				{
-					transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotSpeed);
-					//Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(lookAtHomeRot, Vector3.up), Time.deltaTime * rotSpeed);
-					yield return new WaitForSeconds(0.01f);
-				}
-
-
-				//Lerp to home position
-				while (Vector3.Distance(transform.position, new Vector3(homePos.x,transform.position.y,homePos.z)) > 0.01f)
-				{
-					transform.position = Vector3.MoveTowards(transform.position, new Vector3(homePos.x, transform.position.y, homePos.z), Time.deltaTime * moveSpeed);
-					yield return new WaitForSeconds(0.01f);
-				}
-
-
-				//Lerp to original "resting" rotation
-				while (Quaternion.Angle(transform.rotation, homeRot) > 1f)
-				{
-					transform.rotation = Quaternion.Slerp(transform.rotation, homeRot, Time.deltaTime * rotSpeed);
-					yield return new WaitForSeconds(0.01f);
-				}
-			}
-			
-
 			//Movement Commands
 			else
 			{
@@ -212,7 +181,37 @@ public class DroneControl : MonoBehaviour
 			}
 
 			yield return new WaitForSeconds(1f);
-			Debug.Log("Command " + i + " finished");
+			//Debug.Log("Command " + i + " finished");
+		}
+
+
+		//AutoReturn
+		{
+			///else if (commands[i] == "RETURN")
+			Quaternion targetRot = Quaternion.LookRotation(homePos - transform.position, transform.up);
+			//Face home position
+			while (Quaternion.Angle(transform.rotation, targetRot) > 4f)
+			{
+				transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotSpeed);
+				//Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(lookAtHomeRot, Vector3.up), Time.deltaTime * rotSpeed);
+				yield return new WaitForSeconds(0.01f);
+			}
+
+
+			//Lerp to home position
+			while (Vector3.Distance(transform.position, new Vector3(homePos.x, transform.position.y, homePos.z)) > 0.01f)
+			{
+				transform.position = Vector3.MoveTowards(transform.position, new Vector3(homePos.x, transform.position.y, homePos.z), Time.deltaTime * moveSpeed);
+				yield return new WaitForSeconds(0.01f);
+			}
+
+
+			//Lerp to original "resting" rotation
+			while (Quaternion.Angle(transform.rotation, homeRot) > 1f)
+			{
+				transform.rotation = Quaternion.Slerp(transform.rotation, homeRot, Time.deltaTime * rotSpeed);
+				yield return new WaitForSeconds(0.01f);
+			}
 		}
 
 	}

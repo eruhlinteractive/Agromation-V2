@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Placable : Item
+public class Placable : Item, IPlacable
 {
 	[SerializeField] private GameObject placableObject;
 
-	public GameObject PlacableObject { get => placableObject;}
+	public GameObject PlacedObject { get => placableObject; }
 }

@@ -114,6 +114,8 @@ public class UIBuyingMenuController : MonoBehaviour
 		StartCoroutine(FadeOut());
 	}
 
+
+	//TODO:Fix this
 	/// <summary>
 	/// Fades out color over time
 	/// </summary>

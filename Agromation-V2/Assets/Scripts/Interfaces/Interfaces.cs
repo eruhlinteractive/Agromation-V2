@@ -8,3 +8,8 @@ interface IGrowable
 	void FullGrown();
 
 }
+
+interface IPlacable
+{
+	 GameObject PlacedObject { get; }
+}

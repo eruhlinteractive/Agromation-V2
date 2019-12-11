@@ -52,6 +52,15 @@ public class Interaction : MonoBehaviour
 					}
 				}
 
+				//Crafting station
+				else if(_playerLookRayCast.LookHit.collider.gameObject.CompareTag("CraftingStation"))
+				{
+					if (Input.GetButton("Fire1"))
+					{
+						_playerLookRayCast.LookHit.collider.gameObject.GetComponent<CraftingManager>().OpenCraftingMenu();
+					}
+				}
+
 				//If not in tool mode
 				if(canUseItem)
 				{
@@ -89,7 +98,7 @@ public class Interaction : MonoBehaviour
 	private void Pickup()
 	{
 		//If the hit collider has an item script attached
-		if (_playerLookRayCast.LookHit.collider.gameObject.CompareTag("Item"))
+		if (_playerLookRayCast.LookHit.collider.gameObject.GetComponent<Item>() != null)
 		{
 			int id = _playerLookRayCast.LookHit.collider.gameObject.GetComponent<Item>().Id;
 			//Debug.Log("It's an item with id:" + id);
@@ -147,11 +156,11 @@ public class Interaction : MonoBehaviour
 						//Are they looking at a drone pad
 						if(_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DronePad>() != null)
 						{
-							Debug.Log(_playerLookRayCast.LookHit.collider.gameObject.name);
+							//Debug.Log(_playerLookRayCast.LookHit.collider.gameObject.name);
 							//Make sure there isnt already a drone linked to the pad
 							if(_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DronePad>().LinkedDrone == null)
 							{
-								PlaceDrone(_itemManager.GetItem(itemId).GetComponent<Placable>().PlacableObject,
+								PlaceDrone(_itemManager.GetItem(itemId).GetComponent<IPlacable>().PlacedObject,
 								_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DronePad>());
 								_playerInv.RemoveFromInventory(itemId);
 							}
@@ -167,7 +176,7 @@ public class Interaction : MonoBehaviour
 					//Get placable item and the point to place at
 					else if (_playerLookRayCast.LookHit.collider.CompareTag("Ground") && (Vector3.Distance(transform.position, _playerLookRayCast.LookHit.point) < 5f))
 					{
-						PlacePlaceable(_itemManager.GetItem(itemId).GetComponent<Placable>().PlacableObject, _playerLookRayCast.LookHit.point, itemId);
+						PlacePlaceable(_itemManager.GetItem(itemId).GetComponent<IPlacable>().PlacedObject, _playerLookRayCast.LookHit.point, itemId);
 
 					}
 
