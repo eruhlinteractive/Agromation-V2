@@ -34,17 +34,21 @@ public class Interaction : MonoBehaviour
 	void Update()
 	{
 		if (Cursor.lockState == CursorLockMode.Locked)
+		{
 			//General interaction
 			if (_playerLookRayCast.LookHit.collider != null)
 			{
 				//if The player is looking at a plot
 				if (_playerLookRayCast.LookHit.collider.CompareTag("Plot"))
 				{
-					//_playerLookRayCast.LookHit.collider.gameObject.GetComponent<Plot>().GrowthDisplay.gameObject.SetActive(true);
+					if (_playerLookRayCast.LookHit.collider.gameObject.GetComponent<Plot>().IsPlanted)
+					{
+						_playerLookRayCast.LookHit.collider.gameObject.GetComponent<Plot>().ShowProgress();
+					}
 				}
 
 				//Buying Station
-				if (_playerLookRayCast.LookHit.collider.gameObject.CompareTag("BuyingStation"))
+				else if (_playerLookRayCast.LookHit.collider.gameObject.CompareTag("BuyingStation"))
 				{
 					if (Input.GetButton("Fire1"))
 					{
@@ -53,7 +57,7 @@ public class Interaction : MonoBehaviour
 				}
 
 				//Crafting station
-				else if(_playerLookRayCast.LookHit.collider.gameObject.CompareTag("CraftingStation"))
+				else if (_playerLookRayCast.LookHit.collider.gameObject.CompareTag("CraftingStation"))
 				{
 					if (Input.GetButton("Fire1"))
 					{
@@ -62,31 +66,91 @@ public class Interaction : MonoBehaviour
 				}
 
 				//If not in tool mode
-				if(canUseItem)
+				if (canUseItem)
 				{
 					//Programming Stations
 					if (_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DroneStation>() != null)
-				{
-					if (Input.GetButton("Fire1"))
 					{
-						_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DroneStation>().OpenConsole();
+						if (Input.GetButtonDown("Fire1"))
+						{
+							_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DroneStation>().OpenConsole();
+						}
 					}
-				}
+
+					//Storage Interaction
+					else if (_playerLookRayCast.LookHit.collider.gameObject.GetComponent<StorageChest>() != null)
+					{
+						//Try placing item in storage
+						if (Input.GetButtonDown("Fire2") && _playerInv.currentSelectedId > 2)
+						{
+							StorageChest chest = _playerLookRayCast.LookHit.collider.gameObject.GetComponent<StorageChest>();
+							if (chest.AddItem(_playerInv.currentSelectedId))
+							{
+								_playerInv.RemoveFromInventory(_playerInv.currentSelectedId);
+							}
+
+						}
+						//Remove item from storage
+						if (Input.GetButtonDown("Fire1"))
+						{
+							StorageChest chest = _playerLookRayCast.LookHit.collider.gameObject.GetComponent<StorageChest>();
+							//Make sure there is something to remove first 
+							if (chest.AmountStored != 0)
+							{
+								chest.RemoveItem();
+							}
+						}
+						return;
+					}
+
+					//Drone Module
+					else if (_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DroneControl>() != null)
+					{
+						if (Input.GetButtonDown("Fire2"))
+						{
+							//If the player is holding a drone assignment module
+							if (_playerInv.currentSelectedId != -1) //Make sure the player is holding something
+								if (_itemManager.GetItem(_playerInv.currentSelectedId).GetComponent<DroneAssignmentModule>() != null)
+								{
+
+									DroneControl cont = _playerLookRayCast.LookHit.collider.gameObject.GetComponent<DroneControl>();
+									GameObject objToAdd;
+
+									//Determine which object should be added
+									if (cont.TypeOfDrone == DroneType.Ground)
+									{
+										objToAdd = _itemManager.GetItem(_playerInv.currentSelectedId).GetComponent<DroneAssignmentModule>().GroundDroneObject;
+									}
+									else
+									{
+										objToAdd = _itemManager.GetItem(_playerInv.currentSelectedId).GetComponent<DroneAssignmentModule>().FlyingDroneObject;
+									}
+
+									//Is the module able to be successfully added?
+									if (_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DroneControl>().AddAssignmentModule(_playerInv.currentSelectedId, objToAdd))
+									{
+										//If so, remove the module from the players inventory
+										_playerInv.RemoveFromInventory(_playerInv.currentSelectedId);
+									}
+								}
+						}
+					}
+
+					//End Case (regular Pickup/Drop)
+					else
+					{
+						if (Input.GetButtonDown("Fire1"))
+						{
+							Pickup();
+						}
+						else if (Input.GetButtonDown("Fire2"))
+						{
+							Drop();
+						}
+					}
+
 				}
 
-			}
-
-		//First make sure that the player is holding an item (not a tool)
-		if (canUseItem)
-		{
-			if (_playerLookRayCast.LookHit.collider != null)
-				if (Input.GetButtonDown("Fire1"))
-				{
-					Pickup();
-				}
-			if (Input.GetButtonDown("Fire2"))
-			{
-				Drop();
 			}
 		}
 	}
@@ -222,12 +286,14 @@ public class Interaction : MonoBehaviour
 	private void Plant(GameObject plot, int plantId)
 	{
 		//Get the plot object
-		plot.GetComponent<Plot>().Plant();
+		
 		GameObject plant = _itemManager.GetItem(plantId);
 		GameObject newPlant = Instantiate(plant,
 			plot.transform.position + Vector3.up * 0.25f + (plant.transform.GetChild(0).localScale.y / 2 * Vector3.up),
 			Quaternion.identity,
 			plot.transform);
+		//Send the plot its new plant reference
+		plot.GetComponent<Plot>().Plant(newPlant);
 	}
 
 	/// <summary>

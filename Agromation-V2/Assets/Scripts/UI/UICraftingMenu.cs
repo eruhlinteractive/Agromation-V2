@@ -19,13 +19,12 @@ public class UICraftingMenu : MonoBehaviour
 	[SerializeField] private Text selectedItemRecipe;
 
 	[SerializeField] CraftingManager currentlyActiveManager = null;
-
-
 	// Start is called before the first frame update
 	void Start()
     {
 		_itemManager = GameSettings.Instance.ItemManager;
 		UICraftingOptionButton.clicked += SelectItem;
+		
 	}
 
 	/// <summary>
@@ -99,9 +98,6 @@ public class UICraftingMenu : MonoBehaviour
 		for (int i = 0; i < selectionButtons.Count; i++)
 		{
 			GameObject button = selectionButtons[i].gameObject;
-
-			Debug.Log(button.GetComponentInChildren<Image>().sprite);
-			Debug.Log(selectionButtons[i].GetComponent<UICraftingOptionButton>().buttonId);
 		}
 	}
 
@@ -122,11 +118,19 @@ public class UICraftingMenu : MonoBehaviour
 		string itemRecipe = "";
 
 		//Loop through each ingredient, extracting name and amount needed
-		foreach(int ingredientId in selectedItem.Recipe.Keys)
+		for (int i = 0; i < selectedItem.Ingredients.Count; i++)
 		{
-			itemRecipe += _itemManager.GetItem(ingredientId).GetComponent<Item>().ItemName + " x" + selectedItem.Recipe[ingredientId]+ "\n";
+			itemRecipe += _itemManager.GetItem(selectedItem.Ingredients[i]).GetComponent<Item>().ItemName 
+				+ " x" 
+				+ selectedItem.GetIngredientAmount(selectedItem.Ingredients[i])
+				+ "\n";
 		}
 		//Set the text field
 		selectedItemRecipe.text = itemRecipe;
+	}
+
+	public void CloseMenu()
+	{
+		currentlyActiveManager.CloseCraftingMenu();
 	}
 }

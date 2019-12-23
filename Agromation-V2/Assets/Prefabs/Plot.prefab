@@ -286,6 +286,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   growthDisplay: {fileID: 2815201747470889512}
   mound: {fileID: 784203839539091283}
+  dry: {fileID: 2100000, guid: ea91bdbadc3aa1a48b30611ba15eecf4, type: 2}
+  watered: {fileID: 2100000, guid: 1752979ca6e25284088b204f3a31ad4c, type: 2}
 --- !u!1001 &8774102973685354074
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -55,7 +55,7 @@ public class PlayerInventory : ScriptableObject
 	/// </summary>
 	/// <param name="itemId">The id of the item to look for</param>
 	/// <returns>True if the item is in the inventory</returns>
-	private bool IsItemInInventory(int itemId)
+	public bool IsItemInInventory(int itemId)
 	{
 		if (itemsInInventory.ContainsKey(itemId))
 		{
@@ -180,6 +180,7 @@ public class PlayerInventory : ScriptableObject
 			//Is it in the inventory already?
 			if (itemsInInventory.ContainsKey(itemId))
 			{
+				//Debug.Log("Player inventory contains id " + itemId);
 				itemsInInventory[itemId] -= amount;
 
 				//If there arent any left in the inventory

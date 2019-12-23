@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DroneType
+{
+	Ground,Flying
+}
+
+
+
 public class DroneControl : MonoBehaviour
 {
 	/// <summary>
@@ -11,6 +18,10 @@ public class DroneControl : MonoBehaviour
 
 	private List<string> commands = new List<string>();
 	private Vector3 homePos;
+	private DroneType typeOfDrone;
+	[SerializeField] private int assignmentModuleId = -1;
+	private GameObject assignmentModuleObject;
+
 	private Quaternion homeRot;
 	private Grid _grid;
 
@@ -26,8 +37,10 @@ public class DroneControl : MonoBehaviour
 	public bool isParsing = false;
 	[SerializeField] private int energy;
 
-    // Start is called before the first frame update
-    void Start()
+	public DroneType TypeOfDrone { get => typeOfDrone; }
+
+	// Start is called before the first frame update
+	void Start()
     {
 		_grid = Grid.Instance;
 		homePos = _grid.GetNearestPointOnGridWithY(transform.position);
@@ -57,6 +70,44 @@ public class DroneControl : MonoBehaviour
 			}
 		}
     }
+
+
+	/// <summary>
+	/// Adds an assignment module if there isnt one already
+	/// </summary>
+	/// <param name="moduleId">The id of the module to add</param>
+	/// <returns>True if there is no current module and one is added successfully</returns>
+	public bool AddAssignmentModule(int moduleId, GameObject assignmentModuleObj)
+	{
+		if (assignmentModuleId == -1)
+		{
+			//Add the module 
+			assignmentModuleId = moduleId;
+			assignmentModuleObject = Instantiate(assignmentModuleObj, this.transform);
+
+			return true;
+		}
+		return true;
+	}
+
+	/// <summary>
+	/// Removes the current assignment Module (if there is one)
+	/// </summary>
+	/// <returns>The id of the current module, provided there is one</returns>
+	public int RemoveAssignmentModule()
+	{
+		if (assignmentModuleId != -1)
+		{
+			int currentModuleId = assignmentModuleId;
+			assignmentModuleId = -1;
+			return currentModuleId;
+
+		}
+		else
+		{
+			return -1;
+		}
+	}
 
 	/// <summary>
 	/// Set the current command string

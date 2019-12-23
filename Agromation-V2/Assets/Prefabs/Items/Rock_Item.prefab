@@ -46,10 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4274a486f5f05da429e97e83f9efb981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 804
+  itemId: 803
   itemValue: 4
   itemPrice: 6
-  itemIcon: {fileID: 21300000, guid: 575ab6eb27b176340a8c1fa71291d2d9, type: 3}
+  itemIcon: {fileID: 21300000, guid: 1577a438b47c373409bc71ea13b9a8df, type: 3}
   itemName: Stone
 --- !u!54 &7530903833449768399
 Rigidbody:

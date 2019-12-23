@@ -13,3 +13,5 @@ interface IPlacable
 {
 	 GameObject PlacedObject { get; }
 }
+
+

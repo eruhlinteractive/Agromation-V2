@@ -7,7 +7,6 @@ public class CraftingManager : MonoBehaviour
 	//Fields
 	[SerializeField] List<int> craftableItems;
 	[SerializeField] private ItemManager _itemManager;
-	[SerializeField] private Transform itemSpawnPoint;
 	[SerializeField] private PlayerControlManager _playerControlManager;
 	[SerializeField] private GameObject craftingMenu;
 	private PlayerInventory _playerInv;
@@ -22,6 +21,12 @@ public class CraftingManager : MonoBehaviour
 		_itemManager = GameSettings.Instance.ItemManager;
 		_playerControlManager = GameSettings.Instance.PlayerControlManager;
 		_playerInv = GameSettings.Instance.PlayerInventory;
+		if(objectSpawnPosition == null)
+		{
+			throw new System.Exception("CRAFTING MANAGER SPAWN POSITION NOT SET");
+		}
+
+		craftingMenu = UIResources.Instance.CraftingUI;
 		//craftingMenu.SetActive(false);
 	}
 
@@ -38,7 +43,7 @@ public class CraftingManager : MonoBehaviour
 	/// <summary>
 	/// Closes the crafting menu Ui and unlocks player movement
 	/// </summary>
-	public void CloseBuyingMenu()
+	public void CloseCraftingMenu()
 	{
 		_playerControlManager.LockCursor();
 		craftingMenu.SetActive(false);
@@ -56,7 +61,10 @@ public class CraftingManager : MonoBehaviour
 		//The player has enough of each item to craft the object
 		if(CheckInventoryForIngredients(objectToCraft))
 		{
-			CraftObject(itemId,objectToCraft);
+			//Debug.Log("Crafting Sequence Initiated....");
+			CraftObject(objectToCraft);
+			//Remove Required materials from the players inventory
+		
 			return true;
 		}
 		return false;
@@ -71,24 +79,36 @@ public class CraftingManager : MonoBehaviour
 	private bool CheckInventoryForIngredients(CraftableObject objToCraft)
 	{
 		//Loop through each of the objects ingredients
-		foreach (int ingredientId in objToCraft.Recipe.Keys)
+		for (int i = 0; i < objToCraft.Ingredients.Count; i++)
 		{
 			//Is the ingredient in the players inventory
-			if (_playerInv.AmountInInventory(ingredientId) != 0)
+			if (_playerInv.IsItemInInventory(objToCraft.Ingredients[i]))
 			{
-				//If the player DOES NOT have enough of the ingredient to craft the item
-				if (_playerInv.AmountInInventory(ingredientId) < objToCraft.Recipe[ingredientId])
+				int requiredIngredientAmount = objToCraft.GetIngredientAmount(objToCraft.Ingredients[i]);
+
+				if(requiredIngredientAmount != -1)
 				{
-					//Break out and stop checking 
+					//If the player DOES NOT have enough of the ingredient to craft the item
+					if (requiredIngredientAmount > _playerInv.AmountInInventory(objToCraft.Ingredients[i]))
+					{
+						//Debug.Log("NOT Enough" + objToCraft.Ingredients[i] + " In inventory");
+						return false;
+					}
+				}
+				else
+				{
+					//Debug.Log(objToCraft.Ingredients[i] + "Not part of recipe");
 					return false;
 				}
 			}
 			else
 			{
+				//Debug.Log("Not In inventory");
 				//Break out and stop checking 
 				return false;
 			}
 		}
+		//Debug.Log("All ingredients required!");
 		return true;
 	}
 
@@ -97,21 +117,27 @@ public class CraftingManager : MonoBehaviour
 	/// </summary>
 	/// <param name="id">The id of the item to craft</param>
 	/// <param name="objectToCraft">The CraftableObject component of the object to craft</param>
-	private void CraftObject(int id, CraftableObject objectToCraft)
+private void CraftObject(CraftableObject objectToCraft)
+{
+	for (int i = 0; i < objectToCraft.Ingredients.Count; i++)
 	{
-		//Remove Required materials from the players inventory
-		foreach (int ingredientId in objectToCraft.Recipe.Keys)
-		{
-			_playerInv.RemoveFromInventory(ingredientId, objectToCraft.Recipe[ingredientId]);
-		}
-			//Try to add the item directly to inventory
-		if (!_playerInv.AddToInventory(id))
-		{
-			//Debug.Log(itemId);
-			//If that fails, spawn the item instead
-			Instantiate(_itemManager.GetItem(id), objectSpawnPosition.position, Quaternion.identity);
-		}
+		//Debug.Log(objectToCraft.Ingredients[i]);
+		int ingredient = objectToCraft.Ingredients[i];
+
+		//Remove the material from the inventory
+		_playerInv.RemoveFromInventory(ingredient, objectToCraft.GetIngredientAmount(ingredient));
 	}
+
+
+	//Try to add the item directly to inventory
+	if (!_playerInv.AddToInventory(objectToCraft.Id))
+	{
+		Debug.Log(objectToCraft.Id);
+		//If that fails, spawn the item instead
+		Instantiate(_itemManager.GetItem(objectToCraft.Id), objectSpawnPosition.position, Quaternion.identity);
+	}
+		
+}
 
 	//TODO: Fix this XD
 //#if UNITY_EDITOR

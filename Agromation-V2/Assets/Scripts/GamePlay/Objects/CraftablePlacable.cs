@@ -8,11 +8,4 @@ public class CraftablePlacable : CraftableObject, IPlacable
 	[SerializeField] private GameObject placedObject;
 
 	public GameObject PlacedObject { get => placedObject; }
-
-
-	// Update is called once per frame
-	void Update()
-    {
-        
-    }
 }

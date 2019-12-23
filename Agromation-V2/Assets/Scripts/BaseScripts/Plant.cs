@@ -12,6 +12,7 @@ public class Plant : Item
 	[SerializeField] protected float growTimeElapsed;
 	protected float percentGrown;
 	protected bool fullGrown;
+	private float growthSpeed;
 	protected bool isGrowing;
 
 	public float GrowTime { get => growTime; }
@@ -19,4 +20,5 @@ public class Plant : Item
 	public float PercentGrown { get => percentGrown;}
 	public bool FullGrown { get => fullGrown; }
 	public bool IsGrowing { get => isGrowing;}
+	public float GrowthSpeed { get => growthSpeed; set => growthSpeed = value; }
 }

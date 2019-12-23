@@ -14,7 +14,9 @@ public class Resource : MonoBehaviour
 	[SerializeField] private ResourceType type;
 	[SerializeField] private GameObject resourceToSpawn;
 	[SerializeField] private int damage;
-	[SerializeField] private int amountToSpawn;
+
+	[Tooltip("The amount of the resource to spawn(LOWERBOUND, UPPERBOUND)")]
+	[SerializeField] private Vector2 amountToSpawn;
 
 	public ResourceType Type { get => type;}
 	
@@ -32,8 +34,8 @@ public class Resource : MonoBehaviour
 
 	private void Destroyed()
 	{
-		
-		for (int i = 0; i < amountToSpawn; i++)
+		int spawnAmount = Random.Range((int)amountToSpawn.x, (int)amountToSpawn.y);
+		for (int i = 0; i < spawnAmount; i++)
 		{
 			Instantiate(resourceToSpawn,
 				transform.position +(Vector3.up * transform.localScale.y / 2 + Vector3.up * i * resourceToSpawn.transform.localScale.y),

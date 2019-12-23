@@ -64,6 +64,12 @@ public class ItemManager : ScriptableObject
 				itemIndex.items.RemoveAt(i);
 				i--;
 			}
+			else if (_items.ContainsKey(itemIndex.items[i].GetComponent<Item>().Id))
+			{
+				//Debug help -- Tells me if there is Dictionary collision with item Id's
+				throw new System.Exception("Item with id " + itemIndex.items[i].GetComponent<Item>().Id +
+					" already exists on the object " + _items[itemIndex.items[i].GetComponent<Item>().Id].name);
+			}
 			else
 			{
 				//Add an item into the list

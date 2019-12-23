@@ -109,4 +109,4 @@ MonoBehaviour:
   resourceToSpawn: {fileID: 8066770601142706252, guid: 33c2ab21bd751a54496c60e9205439d8,
     type: 3}
   damage: 6
-  amountToSpawn: 3
+  amountToSpawn: {x: 2, y: 4}

@@ -97,7 +97,7 @@ MonoBehaviour:
   resourceToSpawn: {fileID: 6730659209829597256, guid: 51b3255bb73abec4aac2405c1b92b5e7,
     type: 3}
   damage: 4
-  amountToSpawn: 3
+  amountToSpawn: {x: 2, y: 4}
 --- !u!65 &1545385479808750295
 BoxCollider:
   m_ObjectHideFlags: 0
