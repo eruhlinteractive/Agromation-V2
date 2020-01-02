@@ -8,7 +8,7 @@ public class Hoe : MonoBehaviour
 	[SerializeField] Grid _grid = null;
 	PlayerLookRayCast _playerLookRayCast;
 	[SerializeField] GameObject groundPlot = null;
-
+	[SerializeField] private SoundController aud;
 	// Start is called before the first frame update
 	void Start()
     {
@@ -61,8 +61,8 @@ public class Hoe : MonoBehaviour
 				else
 				{
 					_plotManager.RemovePlot(pos);
-
 				}
+				aud.PlaySound("wood_hit_2");
 			}
 		}
 	}
@@ -80,6 +80,7 @@ public class Hoe : MonoBehaviour
 				//Create the plot and add it to the plot managers index
 				GameObject newPlot = Instantiate(groundPlot, positionToPlacePlot, Quaternion.identity);
 				_plotManager.AddPlot(newPlot.transform.position, newPlot);
+				aud.PlaySound("hoe_plot");
 			}
 		}
 	}

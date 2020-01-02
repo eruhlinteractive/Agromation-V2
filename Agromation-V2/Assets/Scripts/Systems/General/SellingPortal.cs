@@ -8,11 +8,13 @@ public class SellingPortal : MonoBehaviour
 	private PlayerStats _playerStats;
 
 	private ParticleSystem particleEffect;
+	private SoundController aud;
     // Start is called before the first frame update
     void Start()
     {
 		_playerStats = GameSettings.Instance.PlayerStats;
 		particleEffect = gameObject.GetComponentInChildren<ParticleSystem>();
+		aud = GetComponent<SoundController>();
     }
 
     // Update is called once per frame
@@ -32,6 +34,7 @@ public class SellingPortal : MonoBehaviour
 				Destroy(collision.gameObject);
 				_playerStats.AddMoney(itemValue);
 				particleEffect.Play();
+				aud.PlaySound("item-sold");
 			}
 			
 		}

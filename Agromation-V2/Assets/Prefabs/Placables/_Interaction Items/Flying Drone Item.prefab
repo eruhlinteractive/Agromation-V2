@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 604
   itemValue: -1
-  itemPrice: -1
+  itemPrice: 2000
   itemIcon: {fileID: 21300000, guid: 875c3143bb80c81458b0ddd63c28b157, type: 3}
   itemName: Base Flying Drone
   placableObject: {fileID: 2315047062764789837, guid: 8fca0c3e4b6b7154ea2141fc041e219e,

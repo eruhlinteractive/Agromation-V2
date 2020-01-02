@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 602
   itemValue: -1
-  itemPrice: -1
+  itemPrice: 850
   itemIcon: {fileID: 21300000, guid: f071f05eec112384bbb9aaf63daf4560, type: 3}
   itemName: Drone Pad
   placableObject: {fileID: 6019603299255303924, guid: 060bb106fc66cf741be8fd54190d51e0,

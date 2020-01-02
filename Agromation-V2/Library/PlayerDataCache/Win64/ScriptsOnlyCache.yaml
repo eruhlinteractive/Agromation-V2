@@ -16,6 +16,7 @@ ScriptsOnlyBuild:
     - CraftingManager
     - DayNightCycle
     - DevBuildNotification
+    - DroneAssignmentModule
     - DroneContolUI
     - DroneControl
     - DronePad
@@ -194,75 +195,77 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10328}
     - Class: 114
-      Script: {instanceID: 10356}
+      Script: {instanceID: 10354}
     - Class: 114
-      Script: {instanceID: 10362}
+      Script: {instanceID: 10360}
     - Class: 114
-      Script: {instanceID: 10392}
+      Script: {instanceID: 10388}
     - Class: 114
-      Script: {instanceID: 10484}
+      Script: {instanceID: 10480}
     - Class: 114
-      Script: {instanceID: 10498}
+      Script: {instanceID: 10494}
     - Class: 114
-      Script: {instanceID: 10564}
+      Script: {instanceID: 10560}
     - Class: 114
-      Script: {instanceID: 10576}
+      Script: {instanceID: 10572}
     - Class: 114
-      Script: {instanceID: 10588}
+      Script: {instanceID: 10584}
     - Class: 114
-      Script: {instanceID: 10608}
+      Script: {instanceID: 10604}
     - Class: 114
-      Script: {instanceID: 10652}
+      Script: {instanceID: 10648}
     - Class: 114
-      Script: {instanceID: 10662}
+      Script: {instanceID: 10658}
     - Class: 114
-      Script: {instanceID: 10786}
+      Script: {instanceID: 10782}
     - Class: 114
-      Script: {instanceID: 10796}
+      Script: {instanceID: 10792}
     - Class: 114
-      Script: {instanceID: 10832}
+      Script: {instanceID: 10828}
     - Class: 114
-      Script: {instanceID: 10996}
+      Script: {instanceID: 10992}
     - Class: 114
-      Script: {instanceID: 11026}
+      Script: {instanceID: 11022}
     - Class: 114
-      Script: {instanceID: 11042}
+      Script: {instanceID: 11038}
     - Class: 114
-      Script: {instanceID: 11052}
+      Script: {instanceID: 11048}
     - Class: 114
-      Script: {instanceID: 11078}
+      Script: {instanceID: 11074}
     - Class: 114
-      Script: {instanceID: 11334}
+      Script: {instanceID: 11330}
     - Class: 114
-      Script: {instanceID: 11354}
+      Script: {instanceID: 11350}
     - Class: 114
-      Script: {instanceID: 11446}
+      Script: {instanceID: 11442}
     - Class: 114
-      Script: {instanceID: 11534}
+      Script: {instanceID: 11530}
     - Class: 114
-      Script: {instanceID: 11552}
+      Script: {instanceID: 11548}
     - Class: 114
-      Script: {instanceID: 11564}
+      Script: {instanceID: 11560}
     - Class: 114
-      Script: {instanceID: 11594}
+      Script: {instanceID: 11590}
     - Class: 114
-      Script: {instanceID: 11678}
+      Script: {instanceID: 11674}
     - Class: 114
-      Script: {instanceID: 11696}
+      Script: {instanceID: 11692}
     - Class: 114
-      Script: {instanceID: 11748}
+      Script: {instanceID: 11744}
     - Class: 114
-      Script: {instanceID: 11904}
+      Script: {instanceID: 11900}
     - Class: 114
-      Script: {instanceID: 11918}
+      Script: {instanceID: 11914}
     - Class: 114
-      Script: {instanceID: 12098}
+      Script: {instanceID: 12094}
     - Class: 114
-      Script: {instanceID: 12118}
+      Script: {instanceID: 12114}
     - Class: 114
-      Script: {instanceID: 12170}
+      Script: {instanceID: 12166}
     - Class: 114
-      Script: {instanceID: 12200}
+      Script: {instanceID: 12196}
+    - Class: 114
+      Script: {instanceID: 12208}
     - Class: 114
       Script: {instanceID: 12232}
     - Class: 114
@@ -594,12 +597,6 @@ ScriptsOnlyBuild:
     className: TiltInput
   - hash:
       serializedVersion: 2
-      Hash: 811e24de8298f28cde2939d2e5c82e0f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: LightingPreset
-  - hash:
-      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -616,12 +613,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: UnityStandardAssets.Water
     className: WaterBase
-  - hash:
-      serializedVersion: 2
-      Hash: 9b9e947e6a23c826b6504913aa07d7be
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: LightingController
   - hash:
       serializedVersion: 2
       Hash: 7ab0e790220bdca831fdd886b339039d
@@ -852,7 +843,7 @@ ScriptsOnlyBuild:
     className: TMP_SpriteAsset
   - hash:
       serializedVersion: 2
-      Hash: 3bc8112eef8eef6413faa8c0a17a5ef2
+      Hash: 93d56e66e7877541c04f9044c9203ba8
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: UIResources
@@ -1254,6 +1245,18 @@ ScriptsOnlyBuild:
     className: VolumeComponent
   - hash:
       serializedVersion: 2
+      Hash: e7e56cbaa3ca427db4e236cdf746bbb6
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DroneAssignmentModule
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DroneUpgradeModule
+  - hash:
+      serializedVersion: 2
       Hash: c1933cc0a2f4ff6eb13333347497beb3
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -1272,7 +1275,7 @@ ScriptsOnlyBuild:
     className: PixelPerfectCamera
   - hash:
       serializedVersion: 2
-      Hash: de2b014a1e1dfc80fabbab73fedb7494
+      Hash: 9eeef33211b87af9d9a95f274c2ec09d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CraftingManager
@@ -1428,7 +1431,7 @@ ScriptsOnlyBuild:
     className: TimedObjectDestructor
   - hash:
       serializedVersion: 2
-      Hash: b46891d5b2ac755b1f48777dc07be1b4
+      Hash: 15da5abe08335360f49ca744403d8359
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Plot
@@ -1554,7 +1557,7 @@ ScriptsOnlyBuild:
     className: ItemNameDisplay
   - hash:
       serializedVersion: 2
-      Hash: fae41a88f69b333702e3975d25f9dc2b
+      Hash: 6290895c015f77bb680ef19e5a611760
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Resource
@@ -1626,7 +1629,7 @@ ScriptsOnlyBuild:
     className: ToggleGroup
   - hash:
       serializedVersion: 2
-      Hash: a6600fb21f5e97f4a9bd97f262fa2e92
+      Hash: ba86118c3b99aab10f0039bc33036cc2
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: DroneControl
@@ -1651,4 +1654,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: C:/Users/Ethan/Desktop/_TestBuild/Agromation.exe
+  playerPath: H:/Agromation P6.0.0.4/Agromation.exe

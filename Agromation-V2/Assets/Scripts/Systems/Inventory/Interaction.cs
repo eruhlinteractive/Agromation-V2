@@ -16,6 +16,9 @@ public class Interaction : MonoBehaviour
 	[SerializeField] private int lookDistance = 0;
 	PlayerLookRayCast _playerLookRayCast;
 
+	[SerializeField] private SoundController sc;
+
+
 	private bool canUseItem = true;
 
 	// Start is called before the first frame update
@@ -28,6 +31,7 @@ public class Interaction : MonoBehaviour
 		HandObject.currentlyHoldingTool += IsHoldingTool;
 		_plotManager = PlotManager.Instance;
 		_grid = Grid.Instance;
+		sc = GetComponent<SoundController>();
 	}
 
 	// Update is called once per frame
@@ -152,6 +156,12 @@ public class Interaction : MonoBehaviour
 				}
 
 			}
+
+			//Throw in air
+			else if (Input.GetButtonDown("Fire2"))
+			{
+				Drop();
+			}
 		}
 	}
 
@@ -170,6 +180,19 @@ public class Interaction : MonoBehaviour
 			{
 				//Only destroy if item has been successfully added
 				Destroy(_playerLookRayCast.LookHit.collider.gameObject);
+
+				float num = Random.value;
+				if (num > 0.5f)
+				{
+					sc.PlaySound("pop_1");
+				}
+				else
+				{
+					sc.PlaySound("pop_2");
+
+				}
+
+				
 			}
 		}
 
@@ -275,7 +298,7 @@ public class Interaction : MonoBehaviour
 		//"Throw" instantiated object
 		placedObject.GetComponent<Rigidbody>().AddForce(playerHead.transform.forward * 2, ForceMode.Impulse);
 		_playerInv.RemoveFromInventory(_playerInv.currentSelectedId);
-
+		sc.PlaySound("drop_item");
 	}
 
 	/// <summary>

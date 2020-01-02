@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bf8a1b68289fe468b52a39c858edd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  craftableItems: 5d0200000500000006000000600200000d0000000c000000
+  craftableItems: 5d0200000500000006000000600200000d0000000c0000005e020000
   _itemManager: {fileID: 0}
   _playerControlManager: {fileID: 0}
   craftingMenu: {fileID: 0}

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlotManager : MonoBehaviour
 {
 	Dictionary<Vector3, GameObject> plotIndex = new Dictionary<Vector3, GameObject>();
+	Dictionary<Vector3, GameObject> plantingPlots = new Dictionary<Vector3, GameObject>();
 	Dictionary<Vector3, GameObject> fences = new Dictionary<Vector3, GameObject>();
 
 	//TESTING
@@ -13,6 +14,8 @@ public class PlotManager : MonoBehaviour
 	private Grid _grid;
 	private static PlotManager instance;
 	public static PlotManager Instance { get { return instance; } }
+
+	public Dictionary<Vector3, GameObject> PlantingPlots { get => plantingPlots; }
 
 	private void Awake()
 	{
@@ -76,6 +79,11 @@ public class PlotManager : MonoBehaviour
 			
 			}
 		}
+		else if(newPlot.GetComponent<Plot>() != null)
+		{
+			//Debug.Log("added plantable plot");
+			plantingPlots.Add(pos,newPlot);
+		}
 	}
 	
 	/// <summary>
@@ -86,10 +94,17 @@ public class PlotManager : MonoBehaviour
 	{
 		//Destroy the plot
 		Destroy(plotIndex[pos]);
+		
+		//Remove planting plot
+		if (plantingPlots.ContainsKey(pos))
+		{
+			plantingPlots.Remove(pos);
+			Debug.Log("Remove plantable plot");
+		}
 		//Remove it from index
 		plotIndex.Remove(pos);
 
-		//TO:DO- Add fence removal code
+		//TODO: Add fence removal code
 	}
 
 	/// <summary>
@@ -134,10 +149,6 @@ public class PlotManager : MonoBehaviour
 	public List<Vector3> CheckForAdjacentFencePosts(Vector3 pos)
 	{
 		List<Vector3> adjacentPosts = new List<Vector3>();
-		//Instantiate(sphere, _grid.GetNearestPointOnGridWithY(pos + Vector3.forward * _grid.Size), Quaternion.identity);
-		//Instantiate(sphere, _grid.GetNearestPointOnGridWithY(pos - Vector3.forward * _grid.Size), Quaternion.identity);
-		//Instantiate(sphere, _grid.GetNearestPointOnGridWithY(pos + Vector3.right * _grid.Size), Quaternion.identity);
-		//Instantiate(sphere, _grid.GetNearestPointOnGridWithY(pos - Vector3.right * _grid.Size), Quaternion.identity);
 
 		if (fences.ContainsKey(_grid.GetNearestPointOnGridWithY(pos + Vector3.forward * _grid.Size)))
 		{
