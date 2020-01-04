@@ -7,7 +7,6 @@ public class UIBuyingMenuController : MonoBehaviour
 {
 	#region Fields
 	[SerializeField] private List<int> buyableItems;
-	[SerializeField] private Slider selectionScrollBar;
 	[SerializeField] private GameObject selectionListHolder;
 	[SerializeField] private GameObject selectionButtonPrefab;
 	[SerializeField] List<Button> selectionButtons = new List<Button>();
@@ -52,18 +51,9 @@ public class UIBuyingMenuController : MonoBehaviour
 			selectionButtons[i].GetComponentInChildren<Text>().text = _itemManager.GetItem(buyableItems[i]).GetComponent<Item>().ItemName;
 			selectionButtons[i].GetComponent<BuyingOptionButtonUI>().buttonId = buyableItems[i];
 		}
-
-		selectionScrollBar.maxValue = buyableItems.Count;
 		//Set height of selection menu
 		selectionListHolder.GetComponent<RectTransform>().sizeDelta = new Vector2(selectionListHolder.GetComponent<RectTransform>().sizeDelta.x,
-			selectionButtons.Count * 100);
-	}
-
-	private void Update()
-	{
-		//Set the position of the menu
-		selectionListHolder.transform.localPosition = new Vector3(0, selectionHolderInitialPosition.y +
-			 selectionListHolder.GetComponent<RectTransform>().sizeDelta.y / (buyableItems.Count * 2) * selectionScrollBar.value);
+		selectionButtons.Count * 100);
 	}
 
 	/// <summary>

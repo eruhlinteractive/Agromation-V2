@@ -18,6 +18,7 @@ public class Interaction : MonoBehaviour
 
 	[SerializeField] private SoundController sc;
 
+	[SerializeField] private PlayerArmsAnimationController armsAnim;
 
 	private bool canUseItem = true;
 
@@ -155,6 +156,7 @@ public class Interaction : MonoBehaviour
 
 				}
 
+				
 			}
 
 			//Throw in air
@@ -163,6 +165,39 @@ public class Interaction : MonoBehaviour
 				Drop();
 			}
 		}
+
+
+
+		//Set Animation parameters
+		if (canUseItem)
+		{
+			armsAnim.HoldTool(false);
+			if (_playerInv.currentSelectedId != -1)
+			{
+				armsAnim.SetHoldItem(true);
+
+			}
+			else
+			{
+				armsAnim.SetHoldItem(false);
+			}
+		}
+		else
+		{
+			armsAnim.HoldTool(true);
+			armsAnim.SetHoldItem(false);
+			//Swing weapon?
+			if (Input.GetButtonDown("Fire1"))
+			{
+				armsAnim.SwingTool();
+			}
+			else
+			{
+				
+			}
+
+		}
+
 	}
 
 

@@ -201,7 +201,7 @@ public class DroneControl : MonoBehaviour
 				//Rotate to target rotation
 				while(Quaternion.Angle(transform.rotation,targetRot) > 1f)
 				{
-					transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotSpeed);
+					transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.fixedDeltaTime * rotSpeed);
 					yield return new WaitForSeconds(0.01f);
 				}
 				
@@ -212,7 +212,7 @@ public class DroneControl : MonoBehaviour
 				//Rotate to target rotation
 				while (Quaternion.Angle(transform.rotation, targetRot) > 1f)
 				{
-					transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotSpeed);
+					transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.fixedDeltaTime * rotSpeed);
 					yield return new WaitForSeconds(0.01f);
 				}
 			}
@@ -224,7 +224,7 @@ public class DroneControl : MonoBehaviour
 
 				while (Vector3.Distance(transform.position, new Vector3(targetPoint.x,transform.position.y,targetPoint.z)) > 0.01f)
 				{
-					transform.position = Vector3.MoveTowards(transform.position, targetPoint, Time.deltaTime * moveSpeed);
+					transform.position = Vector3.MoveTowards(transform.position, targetPoint, Time.fixedDeltaTime * moveSpeed);
 					
 					yield return new WaitForSeconds(0.01f);
 				}
@@ -243,7 +243,7 @@ public class DroneControl : MonoBehaviour
 			//Face home position
 			while (Quaternion.Angle(transform.rotation, targetRot) > 4f)
 			{
-				transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotSpeed);
+				transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.fixedDeltaTime * rotSpeed);
 				//Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(lookAtHomeRot, Vector3.up), Time.deltaTime * rotSpeed);
 				yield return new WaitForSeconds(0.01f);
 			}
@@ -252,7 +252,7 @@ public class DroneControl : MonoBehaviour
 			//Lerp to home position
 			while (Vector3.Distance(transform.position, new Vector3(homePos.x, transform.position.y, homePos.z)) > 0.01f)
 			{
-				transform.position = Vector3.MoveTowards(transform.position, new Vector3(homePos.x, transform.position.y, homePos.z), Time.deltaTime * moveSpeed);
+				transform.position = Vector3.MoveTowards(transform.position, new Vector3(homePos.x, transform.position.y, homePos.z), Time.fixedDeltaTime * moveSpeed);
 				yield return new WaitForSeconds(0.01f);
 			}
 
@@ -260,7 +260,7 @@ public class DroneControl : MonoBehaviour
 			//Lerp to original "resting" rotation
 			while (Quaternion.Angle(transform.rotation, homeRot) > 1f)
 			{
-				transform.rotation = Quaternion.Slerp(transform.rotation, homeRot, Time.deltaTime * rotSpeed);
+				transform.rotation = Quaternion.Slerp(transform.rotation, homeRot, Time.fixedDeltaTime * rotSpeed);
 				yield return new WaitForSeconds(0.01f);
 			}
 		}
