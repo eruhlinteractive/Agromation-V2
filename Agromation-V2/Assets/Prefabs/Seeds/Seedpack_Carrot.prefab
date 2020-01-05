@@ -75,12 +75,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b461cac2daa996449549991d816d86d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 200
+  itemId: 201
   itemValue: 10
   itemPrice: 16
   itemIcon: {fileID: 21300000, guid: f99c998d9e9ed6c44a87bc4b43cbb4d9, type: 3}
   itemName: Carrot Seed
-  plantId: 401
+  plantId: 3
 --- !u!1001 &9077886846032036681
 PrefabInstance:
   m_ObjectHideFlags: 0

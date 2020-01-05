@@ -11,6 +11,7 @@ public class UI_Inventory : MonoBehaviour
 	[SerializeField] private int selectedSlot = 0;
 	[SerializeField] private PlayerInventory _playerInventory = null;
 	[SerializeField] private ItemManager _itemManager = null;
+					 int previousSlot = -1;
 
 
 	#endregion
@@ -68,8 +69,29 @@ public class UI_Inventory : MonoBehaviour
 			selectedSlot = 4;
 		}
 
+		//If switching to a new item, update the hand object
+		if(selectedSlot != previousSlot)
+		{
+			HandObject.Instance.SetCurrentItem(inventorySlots[selectedSlot].Id);
+			previousSlot = selectedSlot;
+		}
+
+		//If the current slot is not holding anythng, destroy the item 
+		if(inventorySlots[selectedSlot].Amount <= 0)
+		{
+			HandObject.Instance.DestroyItemInHand();
+		}
+		//If there is something to be held, but it isnt being displayed
+		else
+		{
+			
+			if(HandObject.Instance.CurrentItemInHand == null)
+			{
+				HandObject.Instance.SetCurrentItem(inventorySlots[selectedSlot].Id);
+			}
+		}
+
 		//Set which object should be displayed in the hand
-		HandObject.Instance.SetCurrentItem(inventorySlots[selectedSlot].Id);
 		inventorySlots[selectedSlot].gameObject.transform.localScale = Vector3.one * 1.15f;
 	}
 

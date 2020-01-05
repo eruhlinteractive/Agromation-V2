@@ -65,15 +65,18 @@ public class ToolSwap : MonoBehaviour
 	{
 		if (Cursor.lockState == CursorLockMode.Locked)
 		{
-			if (Input.GetKeyDown(KeyCode.Q))
+			if (toolMode)
 			{
-				currentTool--;
-				SetCurrentTool();
-			}
-			if (Input.GetKeyDown(KeyCode.E))
-			{
-				currentTool++;
-				SetCurrentTool();
+				if (Input.GetKeyDown(KeyCode.Q))
+				{
+					currentTool--;
+					SetCurrentTool();
+				}
+				if (Input.GetKeyDown(KeyCode.E))
+				{
+					currentTool++;
+					SetCurrentTool();
+				}
 			}
 		}
 	}

@@ -17,12 +17,10 @@ public class Pause : MonoBehaviour
 
 	private void Update()
 	{
+		if(!isPaused)
 		if (Input.GetButtonDown("Cancel"))
 		{
-			if(!isPaused)
-			{
-				PauseGame();
-			}
+			PauseGame();
 		}
 	}
 

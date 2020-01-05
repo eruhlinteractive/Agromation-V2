@@ -16,6 +16,7 @@ public class InvSlot : MonoBehaviour
 	[SerializeField] private Text amountText;
 
 	public int Id { get => id; }
+	public int Amount { get => amount; }
 
 	#endregion
 

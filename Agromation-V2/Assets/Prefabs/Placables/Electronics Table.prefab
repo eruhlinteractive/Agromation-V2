@@ -45,8 +45,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.91732055, y: 0.74242127, z: 0.9173205}
-  m_Center: {x: 0.0031799972, y: -0.12878937, z: 0.003180027}
+  m_Size: {x: 0.91732055, y: 0.91428626, z: 0.9173205}
+  m_Center: {x: 0.0031799972, y: 0.32714313, z: 0.003180027}
 --- !u!114 &1745987384564714929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bf8a1b68289fe468b52a39c858edd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  craftableItems: 0c000000
+  craftableItems: 0c0000000e000000
   _itemManager: {fileID: 0}
   _playerControlManager: {fileID: 0}
   craftingMenu: {fileID: 0}
@@ -88,7 +88,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7795057004445256076}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.084, y: 0.715, z: 0}
+  m_LocalPosition: {x: 0.084, y: 0.909, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3972235383652034278}
@@ -114,7 +114,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 475f9f4ab9631394fa1d6a4f94ed53c8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.508
+      value: -0.126
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 475f9f4ab9631394fa1d6a4f94ed53c8,
         type: 3}
@@ -169,7 +169,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 475f9f4ab9631394fa1d6a4f94ed53c8,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.023693578
+      value: 0.02815034
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 475f9f4ab9631394fa1d6a4f94ed53c8,
         type: 3}

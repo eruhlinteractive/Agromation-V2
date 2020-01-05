@@ -99,7 +99,7 @@ public class PlotManager : MonoBehaviour
 		if (plantingPlots.ContainsKey(pos))
 		{
 			plantingPlots.Remove(pos);
-			Debug.Log("Remove plantable plot");
+			//Debug.Log("Remove plantable plot");
 		}
 		//Remove it from index
 		plotIndex.Remove(pos);

@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c7080c7e2154ef45a2a85e5c04f5f0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 450
+  itemId: 401
   itemValue: -1
   itemPrice: -1
   itemIcon: {fileID: 0}
@@ -120,7 +120,7 @@ MonoBehaviour:
   - {fileID: 6226366111857520962}
   - {fileID: 6226366110578915869}
   growLimit: 2
-  vegetableId: 402
+  vegetableId: 4
   _itemManager: {fileID: 0}
 --- !u!1 &6226366111857520963
 GameObject:

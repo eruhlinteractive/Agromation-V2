@@ -141,6 +141,16 @@ public class Interaction : MonoBehaviour
 						}
 					}
 
+
+					else if(_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DropChest>() != null)
+					{
+						if (Input.GetButtonDown("Fire1"))
+						{
+							_playerLookRayCast.LookHit.collider.gameObject.GetComponent<DropChest>().OpenChest();
+						}
+					}
+
+
 					//End Case (regular Pickup/Drop)
 					else
 					{

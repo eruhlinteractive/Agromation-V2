@@ -75,12 +75,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b461cac2daa996449549991d816d86d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 201
+  itemId: 202
   itemValue: 20
   itemPrice: 22
   itemIcon: {fileID: 21300000, guid: f869ee10c949ccc438cf76c3782e5bd7, type: 3}
   itemName: Tomato Seed
-  plantId: 450
+  plantId: 401
 --- !u!1 &5986695051910054527
 GameObject:
   m_ObjectHideFlags: 0

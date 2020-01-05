@@ -19,6 +19,8 @@ public class HandObject : MonoBehaviour
 	ItemManager _itemManager = null;
 	[SerializeField] Transform handPosition = null;
 
+	int currentHandId;
+
 	private ObjectTypeInHand typeInHand = ObjectTypeInHand.Item;
 
 
@@ -37,6 +39,8 @@ public class HandObject : MonoBehaviour
 	//Singelton
 	private static HandObject instance;
 	public static HandObject Instance { get { return instance; } }
+
+	public GameObject CurrentItemInHand { get => currentItemInHand;}
 
 
 	#endregion
@@ -58,9 +62,11 @@ public class HandObject : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+	{ 
 		if(Cursor.lockState == CursorLockMode.Locked)
-		{   //Toggle between holding item and holding tool
+		{  
+			
+			//Toggle between holding item and holding tool
 			if (Input.GetKeyDown(KeyCode.T))
 			{
 				if (typeInHand == ObjectTypeInHand.Item)
@@ -114,8 +120,26 @@ public class HandObject : MonoBehaviour
 		if (_itemManager.ValidItem(itemId))
 		{
 			currentItemInHand = Instantiate(_itemManager.GetItem(itemId), handPosition);
+
+			//Make the rigidbody kinematic
+			if(currentItemInHand.GetComponent<Rigidbody>() != null)
+			{
+				currentItemInHand.GetComponent<Rigidbody>().isKinematic = true;
+			}
 		}
 		SetObjectsAsActive();
+	}
+
+	/// <summary>
+	/// Check if there is an item in the players hand, and if so destroy it
+	/// </summary>
+	public void DestroyItemInHand()
+	{
+		//First check if the player is holding something
+		if(currentItemInHand != null)
+		{
+			Object.Destroy(currentItemInHand);
+		}
 	}
 
 	/// <summary>
