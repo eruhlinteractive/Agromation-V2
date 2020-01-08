@@ -55,6 +55,7 @@ public class DayNightCycle : MonoBehaviour
 		SunIntensity();
 		AdjustSunColor();
 		UpdateModules();
+		Debug.Log(intensity);
 	}
 
 	private void UpdateTimeScale()
@@ -160,7 +161,7 @@ public class DayNightCycle : MonoBehaviour
 	private void SunIntensity()
 	{
 		intensity = Vector3.Dot(sun.transform.forward, Vector3.down);	//Calculates dot product of sun's transform.forward and world down
-		intensity = Mathf.Clamp01(intensity);
+		intensity = Mathf.Clamp01(1-intensity);
 		sun.intensity = intensity * sunVariation + sunBaseIntensity;
 	}
 

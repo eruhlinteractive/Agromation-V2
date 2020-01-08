@@ -9,15 +9,15 @@ public class PlayerControlManager : MonoBehaviour
 	[SerializeField] private FirstPersonController player_Controller;
 	[SerializeField] private GameObject buyingMenu;
 	// Start is called before the first frame update
-	void Start()
-	{
-		
-	}
+	
 	private void Awake()
 	{
 		LockCursor();
 	}
-
+	void Start()
+	{
+		player_Controller = GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>();
+	}
 	// Update is called once per frame
 	void Update()
 	{
@@ -53,11 +53,20 @@ public class PlayerControlManager : MonoBehaviour
 
 	private void DisablePlayerMovement()
 	{
+		if(player_Controller == null)
+		{
+			player_Controller = GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>();
+		}
+
 		player_Controller.enabled = false;
 	}
 
 	private void EnablePlayerMovement()
 	{
+		if (player_Controller == null)
+		{
+			player_Controller = GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>();
+		}
 		player_Controller.enabled = true;
 	}
 

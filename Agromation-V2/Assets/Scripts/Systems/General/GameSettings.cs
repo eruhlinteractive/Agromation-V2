@@ -31,16 +31,23 @@ public class GameSettings : MonoBehaviour
 	[SerializeField] private PlayerControlManager _playerControlManager;
 	public PlayerControlManager PlayerControlManager { get { return _playerControlManager; } }
 
+	bool loaded = false;
+
 
 	private void Awake()
 	{
-		instance = this;
+		if (!loaded)
+		{
+			instance = this;
 
-		//Initialize the scriptable objects
-		_itemManager.FillGameItems();
-		playerInventory.Initalize();
-		_toolManager.Initialize();
-		_playerStats.Initialize();
+			//Initialize the scriptable objects
+			_itemManager.FillGameItems();
+			playerInventory.Initalize();
+			_toolManager.Initialize();
+			_playerStats.Initialize();
+			loaded = true;
+		}
+		
 	}
 
 

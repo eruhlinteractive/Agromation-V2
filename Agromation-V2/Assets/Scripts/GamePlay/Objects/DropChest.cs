@@ -19,6 +19,7 @@ public class DropChest : MonoBehaviour
 
 	private bool hasBeenOpened = false;
 
+	public bool HasBeenOpened { get => hasBeenOpened; }
 
 	private void Start()
 	{
@@ -38,7 +39,6 @@ public class DropChest : MonoBehaviour
 		{
 			if (Vector3.Distance(transform.position, groundHit.point) > 5f)
 			{
-				Debug.Log("NearGround");
 				transform.position = Vector3.Lerp(transform.position, transform.position + Vector3.down, moveSpeed * Time.fixedDeltaTime);
 			}
 			else
@@ -73,6 +73,15 @@ public class DropChest : MonoBehaviour
 
 	}
 
+
+	/// <summary>
+	/// Allows a list to be passed in on creation for each item to spawn
+	/// </summary>
+	/// <param name="items">The list of items to spawn</param>
+	public void CreateChestItems(List<int> items)
+	{
+		itemsToSpawn = items;
+	}
 
 	IEnumerator SpawnItems()
 	{

@@ -12,7 +12,7 @@ public class UI_Inventory : MonoBehaviour
 	[SerializeField] private PlayerInventory _playerInventory = null;
 	[SerializeField] private ItemManager _itemManager = null;
 					 int previousSlot = -1;
-
+	bool loaded = false;
 
 	#endregion
 
@@ -20,6 +20,15 @@ public class UI_Inventory : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
+
+		if (!loaded)
+		{
+			//populate inventorySlots dictionary
+			for (int i = 0; i < inventorySlots.Length; i++)
+			{
+				inventorySlots[i] = transform.GetChild(i).GetComponent<InvSlot>();
+			}
+		}
 		//Set playerInventory Reference
 		_playerInventory = GameSettings.Instance.PlayerInventory;
 		_itemManager = GameSettings.Instance.ItemManager;
@@ -29,11 +38,11 @@ public class UI_Inventory : MonoBehaviour
 		PlayerInventory.removedItem += UnBindSlot;
 		PlayerInventory.itemAmountUpdate += UpdateItemAmount;
 
-		//populate inventorySlots dictionary
-		for (int i = 0; i < inventorySlots.Length; i++)
-		{
-			inventorySlots[i] = transform.GetChild(i).GetComponent<InvSlot>();
-		}
+		////populate inventorySlots dictionary
+		//for (int i = 0; i < inventorySlots.Length; i++)
+		//{
+		//	inventorySlots[i] = transform.GetChild(i).GetComponent<InvSlot>();
+		//}
 	}
 
 	private void Update()
